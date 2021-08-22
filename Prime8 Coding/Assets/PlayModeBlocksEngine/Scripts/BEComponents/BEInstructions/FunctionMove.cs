@@ -10,11 +10,11 @@ public class FunctionMove : BEInstruction
     {
         if (targetObject.GetComponent<Collider2D>())
         {
-            targetObject.transform.position += targetObject.transform.right * beBlock.BeInputs.numberValues[0];
+            targetObject.transform.localPosition += targetObject.transform.right * (beBlock.BeInputs.numberValues[0]);
         }
         else if(targetObject.GetComponent<Collider>())
         {
-            targetObject.transform.position += targetObject.transform.forward * beBlock.BeInputs.numberValues[0];
+            targetObject.transform.localPosition += targetObject.transform.forward * (beBlock.BeInputs.numberValues[0]);
         }
 
         BeController.PlayNextOutside(beBlock);

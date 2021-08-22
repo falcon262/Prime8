@@ -1,6 +1,8 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using Lean.Gui;
 using TMPro;
 
@@ -11,9 +13,9 @@ public class UIController : MonoBehaviour
     public GameObject CostumeFrame;
     public GameObject SoundsFrame;
 
-    [Header("Libraries")]
-    public GameObject CharacterLibrary;
-    public GameObject BackgroundLibrary;
+    [Header("Libraries")]    
+    public GameObject CharacterCostumeLibrary;
+    public GameObject SoundsLibrary;
 
     [Header("Block Toggles")]
     public GameObject Motion;
@@ -40,25 +42,122 @@ public class UIController : MonoBehaviour
     public GameObject CustomBlocks;
 
     [Header("Background Elements")]
-    public RectTransform background;
+
     public TextMeshProUGUI xCordinate;
     public TextMeshProUGUI xCordinateEnv;
     public TextMeshProUGUI yCordinate;
     public TextMeshProUGUI yCordinateEnv;
     Vector2 setPos;
 
-    private void Start()
+    public SpriteRenderer character;
+    
+    public Image cordinateImage;
+    public SaveLoadCode saveLoad;
+
+    [Header("Library Elements")]
+    [SerializeField] LeanToggle[] costumes;
+
+    [Header("Costume Elements")]
+    public List<GameObject> newCostume;
+    [SerializeField] GameObject costumePrefab;
+    [SerializeField] GameObject parentPlaceholder;
+    public Image transparentCharacter;
+    public GameManager gameManager;
+
+    bool isClicked;
+
+
+    private void OnEnable()
     {
-        Debug.Log(background.sizeDelta);
-        Debug.Log(background.rect.size);
-        Debug.Log(background.rect);
-        Debug.Log(background.rect.width);
-        Debug.Log(background.rect.height);
-        Debug.Log(background.rect.center);
-        Debug.Log(background.rect.yMax);
-        Debug.Log(background.rect.yMin);
-        Debug.Log(background.rect.xMax);
-        Debug.Log(background.rect.xMin);
+        //currentBackground.sprite = background.transform.gameObject.GetComponent<Image>().sprite;
+        //currentCharacter.sprite = character.sprite;
+        //transparentCharacter.sprite = character.sprite;
+        newCostume = new List<GameObject>();
+
+        gameManager = FindObjectOfType<GameManager>();
+
+        xCordinate = gameManager.xCordinate;
+        yCordinate = gameManager.yCordinate;
+
+        if (gameManager.isNewtarget)
+        {
+            foreach (LeanToggle character in gameManager.characterSet)
+            {
+                if (character.On)
+                {
+                    this.gameObject.GetComponent<SpriteRenderer>().sprite = character.transform.gameObject.GetComponentInChildren<Image>().sprite;
+                }
+            }
+
+            if (gameManager.characters.Count == 0)
+            {
+                gameManager.characters.Add(Instantiate(gameManager.currentCharacter, gameManager.characterParentPos.transform.position, gameManager.characterParentPos.transform.rotation));
+                gameManager.characters[0].transform.SetParent(gameManager.characterParentPos.transform);
+                gameManager.characters[0].GetComponent<RectTransform>().localScale = new Vector3(1f, 1f, 1f);
+                gameManager.characters[0].GetComponent<RectTransform>().anchoredPosition = new Vector2(51.825f, -51.825f);
+                gameManager.characters[0].GetComponent<LeanToggle>().TurnOn();
+            }
+            else if (gameManager.characters.Count != 0)
+            {
+                if(gameManager.characters.Count % 3 != 0)
+                {
+                    gameManager.characters.Add(Instantiate(gameManager.currentCharacter, gameManager.characterParentPos.transform.position, gameManager.characterParentPos.transform.rotation));
+                    gameManager.characters[gameManager.characters.Count - 1].transform.SetParent(gameManager.characterParentPos.transform);
+                    gameManager.characters[gameManager.characters.Count - 1].GetComponent<RectTransform>().localScale = new Vector3(1f, 1f, 1f);
+                    gameManager.characters[gameManager.characters.Count - 1].GetComponent<RectTransform>().anchoredPosition = new Vector2(gameManager.characters[gameManager.characters.Count - 2].GetComponent<RectTransform>().anchoredPosition.x + 115, gameManager.characters[gameManager.characters.Count - 2].GetComponent<RectTransform>().anchoredPosition.y);
+                    gameManager.characters[gameManager.characters.Count - 1].GetComponent<LeanToggle>().TurnOn();
+                }
+                else if (gameManager.characters.Count % 3 == 0)
+                {
+
+                        gameManager.characters.Add(Instantiate(gameManager.currentCharacter, gameManager.characterParentPos.transform.position, gameManager.characterParentPos.transform.rotation));
+                        gameManager.characters[gameManager.characters.Count - 1].transform.SetParent(gameManager.characterParentPos.transform);
+                        gameManager.characters[gameManager.characters.Count - 1].GetComponent<RectTransform>().localScale = new Vector3(1f, 1f, 1f);
+                        gameManager.characters[gameManager.characters.Count - 1].GetComponent<RectTransform>().anchoredPosition = new Vector2(gameManager.characters[0].GetComponent<RectTransform>().anchoredPosition.x, gameManager.characters[gameManager.characters.Count-3].GetComponent<RectTransform>().anchoredPosition.y - 115);
+                        gameManager.characters[gameManager.characters.Count - 1].GetComponent<LeanToggle>().TurnOn();
+                    
+                }
+
+            }
+            gameManager.isNewtarget = false;
+        }
+
+        if (gameManager.characters.Count == 0)
+        {
+            gameManager.characters.Add(Instantiate(gameManager.currentCharacter, gameManager.characterParentPos.transform.position, gameManager.characterParentPos.transform.rotation));
+            gameManager.characters[0].transform.SetParent(gameManager.characterParentPos.transform);
+            gameManager.characters[0].GetComponent<RectTransform>().localScale = new Vector3(1f, 1f, 1f);
+            gameManager.characters[0].GetComponent<RectTransform>().anchoredPosition = new Vector2(51.825f, -51.825f);
+            gameManager.characters[0].GetComponent<LeanToggle>().TurnOn();
+        }
+
+
+
+
+
+        if (newCostume.Count == 0)
+        {
+            newCostume.Add(Instantiate(costumePrefab, parentPlaceholder.transform.position, parentPlaceholder.transform.rotation));
+            newCostume[0].transform.SetParent(parentPlaceholder.transform);
+            newCostume[0].GetComponent<RectTransform>().localScale = new Vector3(0.5f, 0.5f, 0.5f);
+            newCostume[0].GetComponent<RectTransform>().anchoredPosition = new Vector2(0, -60.27f);
+            newCostume[0].transform.gameObject.GetComponentInChildren<Image>().sprite = character.sprite;
+
+            foreach (LeanToggle item in costumes)
+            {
+                if (item.transform.gameObject.GetComponentInChildren<Image>().sprite.name == (character.sprite.name + "2"))
+                {
+                    newCostume.Add(Instantiate(costumePrefab, parentPlaceholder.transform.position, parentPlaceholder.transform.rotation));
+                    newCostume[1].transform.SetParent(parentPlaceholder.transform);
+                    newCostume[1].GetComponent<RectTransform>().localScale = new Vector3(0.5f, 0.5f, 0.5f);
+                    newCostume[1].GetComponent<RectTransform>().anchoredPosition = new Vector2(0, newCostume[0].GetComponent<RectTransform>().anchoredPosition.y - 100);
+                    newCostume[1].transform.gameObject.GetComponentInChildren<Image>().sprite = item.transform.gameObject.GetComponentInChildren<Image>().sprite;
+                }
+            }
+            newCostume[0].GetComponent<LeanToggle>().TurnOn();
+        }
+
+
         MoreBlocks.SetActive(true);
         LooksBlocks.SetActive(false);
         SoundBlocks.SetActive(false);
@@ -71,19 +170,96 @@ public class UIController : MonoBehaviour
         CustomBlocks.SetActive(false);
     }
 
+    private void Start()
+    {
+        transparentCharacter.sprite = character.sprite;
+        cordinateImage.sprite = character.sprite;
+
+        gameManager.saveCode.onClick.AddListener(delegate
+        {
+            saveLoad.OpenSaveDialog();
+        });
+        
+        gameManager.loadCode.onClick.AddListener(delegate
+        {
+            saveLoad.OpenLoadDialog();
+        });
+        gameManager.clearCode.onClick.AddListener(delegate
+        {
+            saveLoad.BEClearCode();
+        });
+    }
+
     private void Update()
     {
         VectorLogic();
         TypeSwitch();
+
+        DragCharacter();
     }
 
     void VectorLogic()
     {
-        setPos = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, (Input.mousePosition.y), Camera.main.nearClipPlane));
+        setPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         xCordinate.text = ((int)setPos.x).ToString();
         yCordinate.text = ((int)setPos.y).ToString();
-        xCordinateEnv.text = ((int)setPos.x).ToString();
-        yCordinateEnv.text = ((int)setPos.y).ToString();
+        xCordinateEnv.text = ((int)character.gameObject.transform.localPosition.x).ToString();
+        yCordinateEnv.text = ((int)character.gameObject.transform.localPosition.y).ToString();
+    }
+
+    void DragCharacter()
+    {
+        try
+        {
+            if (Input.GetMouseButton(0))
+            {
+                isClicked = true;
+                RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Camera.main.transform.forward);
+                if (hit.collider.tag == "Player" && isClicked)
+                {
+
+                    gameManager.characters[gameManager.targetObjects.IndexOf(hit.transform.gameObject)].transform.gameObject.GetComponent<LeanToggle>().TurnOn();
+                    hit.transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                }
+            }
+            else if (!Input.GetMouseButton(0))
+            {
+                isClicked = false;
+            }
+        }
+        catch (NullReferenceException e)
+        {
+            //Not a target Object
+        }
+    }
+
+    public void OnNewCostumeSelect()
+    {
+        foreach (LeanToggle costume in costumes)
+        {
+            if (costume.On)
+            {
+                CharacterCostumeLibraryOff();
+                if (newCostume.Count == 0)
+                {
+                    newCostume.Add(Instantiate(costumePrefab, parentPlaceholder.transform.position, parentPlaceholder.transform.rotation));
+                    newCostume[0].transform.SetParent(parentPlaceholder.transform);
+                    newCostume[0].GetComponent<RectTransform>().localScale = new Vector3(0.5f, 0.5f, 0.5f);
+                    newCostume[0].GetComponent<RectTransform>().anchoredPosition = new Vector2(0, -60.27f);
+                    newCostume[0].transform.gameObject.GetComponentInChildren<Image>().sprite = costume.transform.gameObject.GetComponentInChildren<Image>().sprite;
+                    newCostume[0].GetComponent<LeanToggle>().TurnOn();
+                }
+                else if (newCostume.Count != 0)
+                {
+                    newCostume.Add(Instantiate(costumePrefab, parentPlaceholder.transform.position, parentPlaceholder.transform.rotation));
+                    newCostume[newCostume.Count-1].transform.SetParent(parentPlaceholder.transform);
+                    newCostume[newCostume.Count - 1].GetComponent<RectTransform>().localScale = new Vector3(0.5f, 0.5f, 0.5f);
+                    newCostume[newCostume.Count - 1].GetComponent<RectTransform>().anchoredPosition = new Vector2(0, newCostume[newCostume.Count - 2].GetComponent<RectTransform>().anchoredPosition.y - 100);
+                    newCostume[newCostume.Count - 1].transform.gameObject.GetComponentInChildren<Image>().sprite = costume.transform.gameObject.GetComponentInChildren<Image>().sprite;
+                    newCostume[newCostume.Count - 1].GetComponent<LeanToggle>().TurnOn();
+                }
+            }
+        }
     }
 
     #region HeaderSwitches
@@ -114,22 +290,24 @@ public class UIController : MonoBehaviour
     #endregion
 
     #region LibrarySwitches
-    public void CharacterLibraryOn()
+    
+    public void CharacterCostumeLibraryOn()
     {
-        CharacterLibrary.SetActive(true);
+        CharacterCostumeLibrary.SetActive(true);
     }
-    public void CharacterLibraryOff()
+    public void CharacterCostumeLibraryOff()
     {
-        CharacterLibrary.SetActive(false);
+        CharacterCostumeLibrary.SetActive(false);
     }
-    public void BackgroundLibraryOn()
+    public void SoundLibraryOn()
     {
-        BackgroundLibrary.SetActive(true);
+        SoundsLibrary.SetActive(true);
     }
-    public void BackgroundLibraryff()
+    public void SoundLibraryOff()
     {
-        BackgroundLibrary.SetActive(false);
+        SoundsLibrary.SetActive(false);
     }
+    
     #endregion
 
     #region BlockTypeSwitching

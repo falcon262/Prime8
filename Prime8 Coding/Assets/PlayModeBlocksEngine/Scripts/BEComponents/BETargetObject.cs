@@ -1,6 +1,4 @@
-﻿
-
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,6 +7,8 @@ public class BETargetObject : MonoBehaviour
     public List<BEBlock> beBlockGroupsList;
     public AudioSource beAudioSource;
     private BEController beController;
+    public GameObject bckground;
+    public GameManager gameManager;
     public BEController BeController { get => beController; }
 
     //v1.1 -Enable programming env from target object inspector
@@ -32,6 +32,12 @@ public class BETargetObject : MonoBehaviour
     private void OnDisable()
     {
         SetEnableProgrammingEnv(false);
+    }
+
+    private void OnEnable()
+    {
+        gameManager = FindObjectOfType<GameManager>();
+        SetEnableProgrammingEnv(true);
     }
 
     private void OnDestroy()
@@ -111,9 +117,31 @@ public class BETargetObject : MonoBehaviour
         beController = GetBeController();
     }
 
+    private void Update()
+    {
+        transform.localPosition = new Vector3(Mathf.Clamp(transform.localPosition.x, -240f, 240f), Mathf.Clamp(transform.localPosition.y, -180f, 180f), transform.position.z);
+    }
+
+
     void Start()
     {
+        gameManager.onPlay.onClick.AddListener(delegate
+        {
+
+            beController.MainPlay();
+
+        });
+        
+        gameManager.onStop.onClick.AddListener(delegate
+        {
+
+            beController.MainStop();
+
+        });
+
         beBlockGroupsList = new List<BEBlock>();
         beAudioSource = GetComponent<AudioSource>();
+        this.transform.parent = gameManager.background.transform;
+        this.transform.localPosition = Vector3.zero;
     }
 }
