@@ -339,6 +339,7 @@ public class BEBlock : MonoBehaviour
         }
     }
 
+
     // map the variables of the block
     /// <summary>
     /// Initializes the main needed variables of the block and maps the inputs of the block header

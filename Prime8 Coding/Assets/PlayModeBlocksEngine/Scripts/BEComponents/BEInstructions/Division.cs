@@ -1,26 +1,19 @@
-using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
+using System.Globalization;
+using UnityEngine;
+using UnityEngine.UI;
 
 public class Division : BEInstruction
 {
- 
-	// Use this for Operations
-	public override string BEOperation(BETargetObject targetObject, BEBlock beBlock)
-	{
-		string result = "0";
-		
-		// Use "beBlock.BeInputs" to get the input values
-		
-		return result;
-	}
-	
-	// Use this for Functions
-	public override void BEFunction(BETargetObject targetObject, BEBlock beBlock)
-	{
-		// Use "beBlock.BeInputs" to get the input values
-		
-		// Make sure to end the function with a "BeController.PlayNextOutside" method and use "BeController.PlayNextInside" to play child blocks if needed
-		BeController.PlayNextOutside(beBlock);
-	}
- 
+    string result;
+
+    public override string BEOperation(BETargetObject targetObject, BEBlock beBlock)
+    {
+
+        float tempResult = beBlock.BeInputs.numberValues[0] / beBlock.BeInputs.numberValues[1];
+        result = tempResult.ToString(CultureInfo.InvariantCulture);
+        FindObjectOfType<GameManager>().resultVal.text = result;
+        return result;
+    }
 }

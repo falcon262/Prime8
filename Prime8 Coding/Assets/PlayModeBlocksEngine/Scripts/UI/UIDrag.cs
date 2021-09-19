@@ -1,9 +1,12 @@
 ﻿using System.Collections;
+using System.Data;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using System;
+using System.Globalization;
+using System.IO;
 
 public class UIDrag : MonoBehaviour, IDragHandler, IEndDragHandler, IPointerClickHandler, IPointerDownHandler, IBeginDragHandler, IPointerUpHandler
 {
@@ -156,6 +159,39 @@ public class UIDrag : MonoBehaviour, IDragHandler, IEndDragHandler, IPointerClic
         {
             OpenRightClickMenu(eventData.position);
         }
+
+        if (eventData.clickCount == 2)
+        {
+            FindObjectOfType<GameManager>().isPenDown = false;
+            Type tp = TryGetType(this.gameObject.name);
+            BEInstruction obj = (BEInstruction)FindObjectOfType(tp);
+            beBlock.beTargetObject = TargetObject;
+            beBlock.InitializeInputs();
+            try
+            {
+                obj.BEOperation(beBlock.beTargetObject, beBlock);
+                obj.BEFunction(beBlock.beTargetObject, beBlock);                
+            }
+            catch (Exception)
+            {
+
+            }
+           
+           
+        }
+    }
+
+    public System.Type TryGetType(string typeName)
+    {
+        var type = System.Type.GetType(typeName);
+        if (type != null) return type;
+        foreach (var a in System.AppDomain.CurrentDomain.GetAssemblies())
+        {
+            type = a.GetType(typeName);
+            if (type != null)
+                return type;
+        }
+        return null;
     }
 
     public void OpenRightClickMenu(Vector3 position)

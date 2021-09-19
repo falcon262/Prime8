@@ -9,6 +9,8 @@ public class BETargetObject : MonoBehaviour
     private BEController beController;
     public GameObject bckground;
     public GameManager gameManager;
+    
+
     public BEController BeController { get => beController; }
 
     //v1.1 -Enable programming env from target object inspector

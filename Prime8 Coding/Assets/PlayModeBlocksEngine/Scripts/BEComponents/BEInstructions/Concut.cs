@@ -1,26 +1,27 @@
-using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
+using System.Globalization;
+using UnityEngine;
+using UnityEngine.UI;
 
 public class Concut : BEInstruction
 {
- 
-	// Use this for Operations
-	public override string BEOperation(BETargetObject targetObject, BEBlock beBlock)
+    string result;
+
+    // Use this for Operations
+    public override string BEOperation(BETargetObject targetObject, BEBlock beBlock)
 	{
-		string result = "0";
-		
-		// Use "beBlock.BeInputs" to get the input values
-		
-		return result;
-	}
+        if (beBlock.BeInputs.isString)
+        {
+            result = beBlock.BeInputs.stringValues[0] + beBlock.BeInputs.stringValues[1];
+        }
+        else
+        {
+            result = beBlock.BeInputs.numberValues[0].ToString() + beBlock.BeInputs.numberValues[1].ToString();
+            //result = tempResult.ToString(CultureInfo.InvariantCulture);
+        }
+        FindObjectOfType<GameManager>().resultVal.text = result;
+        return result;
+    }
 	
-	// Use this for Functions
-	public override void BEFunction(BETargetObject targetObject, BEBlock beBlock)
-	{
-		// Use "beBlock.BeInputs" to get the input values
-		
-		// Make sure to end the function with a "BeController.PlayNextOutside" method and use "BeController.PlayNextInside" to play child blocks if needed
-		BeController.PlayNextOutside(beBlock);
-	}
- 
 }

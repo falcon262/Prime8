@@ -3,14 +3,14 @@ using System.Collections;
 
 public class RandomPick : BEInstruction
 {
- 
+
+	string result;
 	// Use this for Operations
 	public override string BEOperation(BETargetObject targetObject, BEBlock beBlock)
 	{
-		string result = "0";
-		
-		// Use "beBlock.BeInputs" to get the input values
-		
+
+		result = ((int)(Random.Range(beBlock.BeInputs.numberValues[0], beBlock.BeInputs.numberValues[1]))).ToString();
+		FindObjectOfType<GameManager>().resultVal.text = result;
 		return result;
 	}
 	

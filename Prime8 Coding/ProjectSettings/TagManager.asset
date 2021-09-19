@@ -11,6 +11,8 @@ TagManager:
   - saveLoadMenu
   - wall
   - obj
+  - var
+  - pixel
   layers:
   - Default
   - TransparentFX

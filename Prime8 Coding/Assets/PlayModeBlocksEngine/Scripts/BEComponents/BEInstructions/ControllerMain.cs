@@ -10,6 +10,7 @@ public class ControllerMain : BEInstruction
     {
         if(beBlock.BeBlockGroup.isActive)
         {
+            FindObjectOfType<GameManager>().isPenDown = false;
             BeController.PlayNextInside(beBlock);
         }
     }

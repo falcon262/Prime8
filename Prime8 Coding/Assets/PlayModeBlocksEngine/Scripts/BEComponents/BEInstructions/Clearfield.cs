@@ -18,7 +18,12 @@ public class Clearfield : BEInstruction
 	public override void BEFunction(BETargetObject targetObject, BEBlock beBlock)
 	{
 		// Use "beBlock.BeInputs" to get the input values
-		
+		LineRenderer[] lines = FindObjectsOfType<LineRenderer>();
+
+        foreach (LineRenderer item in lines)
+        {
+			Destroy(item.transform.gameObject);
+        }
 		// Make sure to end the function with a "BeController.PlayNextOutside" method and use "BeController.PlayNextInside" to play child blocks if needed
 		BeController.PlayNextOutside(beBlock);
 	}

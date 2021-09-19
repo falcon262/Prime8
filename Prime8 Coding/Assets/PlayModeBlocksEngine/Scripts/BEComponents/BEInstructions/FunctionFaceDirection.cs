@@ -12,24 +12,18 @@ public class FunctionFaceDirection : BEInstruction
         {
             switch (beBlock.BeInputs.stringValues[0])
             {
-                case "Forward":
+                case "(90) right":
                     targetObject.transform.eulerAngles = new Vector3(0, 0, 0);
                     break;
-                case "Back":
-                    targetObject.transform.eulerAngles = new Vector3(0, 0, 180);
+                case "(-90) left":
+                    targetObject.transform.eulerAngles = new Vector3(0, 180, 0);
                     break;
-                case "Up":
+                case "(0) up":
                     targetObject.transform.eulerAngles = new Vector3(0, 0, 90);
                     break;
-                case "Down":
+                case "(180) down":
                     targetObject.transform.eulerAngles = new Vector3(0, 0, -90);
-                    break;
-                case "Left":
-                    targetObject.transform.eulerAngles = new Vector3(0, 0, 180);
-                    break;
-                case "Right":
-                    targetObject.transform.eulerAngles = new Vector3(0, 0, 0);
-                    break;
+                    break;               
                 default:
                     targetObject.transform.eulerAngles = new Vector3(0, 0, 90);
                     break;

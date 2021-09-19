@@ -12,7 +12,7 @@ public class OperationOr : BEInstruction
 
         result = (inputString0 == "1" || inputString0 == "True" || inputString0 == "true") || (inputString1 == "1" || inputString1 == "True" || inputString1 == "true")
         ? "1" : "0";
-
+        FindObjectOfType<GameManager>().resultVal.text = result;
         return result;
     }
 }

@@ -17,7 +17,8 @@ public class GoToMousePointer : BEInstruction
 	// Use this for Functions
 	public override void BEFunction(BETargetObject targetObject, BEBlock beBlock)
 	{
-		targetObject.transform.localPosition = Input.mousePosition;
+		GameManager manager = FindObjectOfType<GameManager>();
+		targetObject.transform.localPosition = new Vector3((Camera.main.ScreenToWorldPoint(Input.mousePosition).x - manager.background.transform.position.x) * 100, (Camera.main.ScreenToWorldPoint(Input.mousePosition).y - manager.background.transform.position.y) * 100);
 		BeController.PlayNextOutside(beBlock);
 	}
  

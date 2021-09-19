@@ -10,10 +10,20 @@ public class GameManager : MonoBehaviour
 {
     public Button restart;
     public Button saveCode;
+    public Button saveCodeF;
     public Button loadCode;
+    public Button loadCodeF;
     public Button clearCode;
     public Button shrink;
     public Button grow;
+
+    public TextMeshProUGUI resultVal;
+
+    public TextMeshProUGUI currentTitle;
+
+    public GameObject line;
+
+    public bool isPenDown;
 
     public GameObject CharacterLibrary;
     public GameObject BackgroundLibrary;

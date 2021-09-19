@@ -53,6 +53,10 @@ public class UIController : MonoBehaviour
     
     public Image cordinateImage;
     public SaveLoadCode saveLoad;
+    public GameObject speechBubble;
+    public TextMeshProUGUI speech;
+    public GameObject thinkBubble;
+    public TextMeshProUGUI think;
 
     [Header("Library Elements")]
     [SerializeField] LeanToggle[] costumes;
@@ -154,6 +158,16 @@ public class UIController : MonoBehaviour
                     newCostume[1].transform.gameObject.GetComponentInChildren<Image>().sprite = item.transform.gameObject.GetComponentInChildren<Image>().sprite;
                 }
             }
+            foreach (Transform child in LooksBlocks.transform)
+            {
+                if (child.name == "SwitchCostumeTo")
+                {
+                    child.GetComponentInChildren<Image>().gameObject.GetComponentInChildren<Dropdown>().options.Clear();
+                    child.GetComponentInChildren<Image>().gameObject.GetComponentInChildren<Dropdown>().options.Add(new Dropdown.OptionData() { text = newCostume[0].transform.gameObject.GetComponentInChildren<Image>().sprite.name });
+                    child.GetComponentInChildren<Image>().gameObject.GetComponentInChildren<Dropdown>().options.Add(new Dropdown.OptionData() { text = newCostume[1].transform.gameObject.GetComponentInChildren<Image>().sprite.name });
+                    //Debug.Log(child.GetComponentInChildren<Image>().gameObject.GetComponentInChildren<Dropdown>().options[0].text);                      
+                }
+            }
             newCostume[0].GetComponent<LeanToggle>().TurnOn();
         }
 
@@ -184,6 +198,15 @@ public class UIController : MonoBehaviour
         {
             saveLoad.OpenLoadDialog();
         });
+        gameManager.saveCodeF.onClick.AddListener(delegate
+        {
+            saveLoad.OpenSaveDialog();
+        });
+        
+        gameManager.loadCodeF.onClick.AddListener(delegate
+        {
+            saveLoad.OpenLoadDialog();
+        });
         gameManager.clearCode.onClick.AddListener(delegate
         {
             saveLoad.BEClearCode();
@@ -200,7 +223,23 @@ public class UIController : MonoBehaviour
 
     void VectorLogic()
     {
-        setPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        setPos = new Vector3((Camera.main.ScreenToWorldPoint(Input.mousePosition).x - gameManager.background.transform.position.x) * 100, (Camera.main.ScreenToWorldPoint(Input.mousePosition).y - gameManager.background.transform.position.y) * 100);
+        if(setPos.x > 240)
+        {
+            setPos.x = 240;
+        }
+        else if(setPos.x < -240)
+        {
+            setPos.x = -240;
+        }
+        if(setPos.y > 180)
+        {
+            setPos.y = 180;
+        }
+        else if(setPos.y < -180)
+        {
+            setPos.y = -180;
+        }
         xCordinate.text = ((int)setPos.x).ToString();
         yCordinate.text = ((int)setPos.y).ToString();
         xCordinateEnv.text = ((int)character.gameObject.transform.localPosition.x).ToString();
@@ -248,6 +287,15 @@ public class UIController : MonoBehaviour
                     newCostume[0].GetComponent<RectTransform>().anchoredPosition = new Vector2(0, -60.27f);
                     newCostume[0].transform.gameObject.GetComponentInChildren<Image>().sprite = costume.transform.gameObject.GetComponentInChildren<Image>().sprite;
                     newCostume[0].GetComponent<LeanToggle>().TurnOn();
+                    foreach (Transform child in LooksBlocks.transform)
+                    {
+                        if (child.name == "SwitchCostumeTo")
+                        {
+                            child.GetComponentInChildren<Image>().gameObject.GetComponentInChildren<Dropdown>().options.Clear();
+                            child.GetComponentInChildren<Image>().gameObject.GetComponentInChildren<Dropdown>().options.Add(new Dropdown.OptionData() { text = newCostume[0].transform.gameObject.GetComponentInChildren<Image>().sprite.name });
+                            //Debug.Log(child.GetComponentInChildren<Image>().gameObject.GetComponentInChildren<Dropdown>().options[0].text);                      
+                        }
+                    }
                 }
                 else if (newCostume.Count != 0)
                 {
@@ -257,6 +305,14 @@ public class UIController : MonoBehaviour
                     newCostume[newCostume.Count - 1].GetComponent<RectTransform>().anchoredPosition = new Vector2(0, newCostume[newCostume.Count - 2].GetComponent<RectTransform>().anchoredPosition.y - 100);
                     newCostume[newCostume.Count - 1].transform.gameObject.GetComponentInChildren<Image>().sprite = costume.transform.gameObject.GetComponentInChildren<Image>().sprite;
                     newCostume[newCostume.Count - 1].GetComponent<LeanToggle>().TurnOn();
+                    foreach (Transform child in LooksBlocks.transform)
+                    {
+                        if (child.name == "SwitchCostumeTo")
+                        {
+                            child.GetComponentInChildren<Image>().gameObject.GetComponentInChildren<Dropdown>().options.Add(new Dropdown.OptionData() { text = newCostume[newCostume.Count - 1].transform.gameObject.GetComponentInChildren<Image>().sprite.name });
+                            //Debug.Log(child.GetComponentInChildren<Image>().gameObject.GetComponentInChildren<Dropdown>().options[0].text);                      
+                        }
+                    }
                 }
             }
         }

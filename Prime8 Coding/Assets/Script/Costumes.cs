@@ -30,7 +30,7 @@ public class Costumes : MonoBehaviour
             {
                 target.GetComponent<UIController>().character.sprite = this.transform.gameObject.GetComponentInChildren<Image>().sprite;
                 target.GetComponent<UIController>().transparentCharacter.sprite = this.transform.gameObject.GetComponentInChildren<Image>().sprite;
-                target.GetComponent<UIController>().cordinateImage.sprite = this.transform.gameObject.GetComponentInChildren<Image>().sprite;
+                target.GetComponent<UIController>().cordinateImage.sprite = this.transform.gameObject.GetComponentInChildren<Image>().sprite;                
             }
         }
     }

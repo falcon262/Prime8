@@ -31,7 +31,7 @@ public class OperationNot : BEInstruction
             float tempResult = beBlock.BeInputs.numberValues[0] * -1;
             result = tempResult.ToString(CultureInfo.InvariantCulture);
         }
-
+        FindObjectOfType<GameManager>().resultVal.text = result;
         return result;
     }
 

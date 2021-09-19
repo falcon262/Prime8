@@ -172,7 +172,7 @@ public class SaveLoadMenu : SaveLoadCode
     {
         ProgrammingEnv.GetComponent<SaveLoadCode>().BESaveCode(FullPath);
         gameObject.SetActive(false);
-
+        FindObjectOfType<GameManager>().currentTitle.text = TextInput;
         CloseConfirmSavePanel();
     }
 
@@ -182,7 +182,7 @@ public class SaveLoadMenu : SaveLoadCode
         if (TextInput.Length > 0)
         {
             fullPath = SavedCodesPath + TextInput;
-
+            FindObjectOfType<GameManager>().currentTitle.text = TextInput;
             ProgrammingEnv.GetComponent<SaveLoadCode>().BELoadCode(fullPath);
             gameObject.SetActive(false);
         }
