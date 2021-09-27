@@ -14,7 +14,7 @@ public class CharOf : BEInstruction
         {
 			char value = output[(int)(beBlock.BeInputs.numberValues[0] - 1)];
 			result = value.ToString();
-			FindObjectOfType<GameManager>().resultVal.text = result;
+			//FindObjectOfType<GameManager>().resultVal.text = result;
 		}
         catch (System.Exception e)
         {

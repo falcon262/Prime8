@@ -721,7 +721,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: change pen color by
+  m_Text: change pen colour by
 --- !u!114 &5840426042426124824
 MonoBehaviour:
   m_ObjectHideFlags: 0

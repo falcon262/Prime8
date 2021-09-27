@@ -8,8 +8,9 @@ public class LogicOf : BEInstruction
 	public override string BEOperation(BETargetObject targetObject, BEBlock beBlock)
 	{
 		string result = "0";
-		
+
 		// Use "beBlock.BeInputs" to get the input values
+		result = Mathf.Sqrt(beBlock.BeInputs.numberValues[0]).ToString();
 		
 		return result;
 	}

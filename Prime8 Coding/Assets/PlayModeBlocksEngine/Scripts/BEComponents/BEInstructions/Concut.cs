@@ -20,7 +20,7 @@ public class Concut : BEInstruction
             result = beBlock.BeInputs.numberValues[0].ToString() + beBlock.BeInputs.numberValues[1].ToString();
             //result = tempResult.ToString(CultureInfo.InvariantCulture);
         }
-        FindObjectOfType<GameManager>().resultVal.text = result;
+        //FindObjectOfType<GameManager>().resultVal.text = result;
         return result;
     }
 	

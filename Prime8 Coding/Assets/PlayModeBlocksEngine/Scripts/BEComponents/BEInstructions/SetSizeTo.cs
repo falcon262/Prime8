@@ -17,9 +17,12 @@ public class SetSizeTo : BEInstruction
 	// Use this for Functions
 	public override void BEFunction(BETargetObject targetObject, BEBlock beBlock)
 	{
-		// Use "beBlock.BeInputs" to get the input values
-		
-		// Make sure to end the function with a "BeController.PlayNextOutside" method and use "BeController.PlayNextInside" to play child blocks if needed
+		if (beBlock.BeInputs.numberValues[0] >= 0 && beBlock.BeInputs.numberValues[0] <= 100)
+		{
+			float size = (beBlock.BeInputs.numberValues[0] / 100) * 108.0343f;
+
+			targetObject.gameObject.transform.localScale = new Vector3(size, size, size);
+		}
 		BeController.PlayNextOutside(beBlock);
 	}
  

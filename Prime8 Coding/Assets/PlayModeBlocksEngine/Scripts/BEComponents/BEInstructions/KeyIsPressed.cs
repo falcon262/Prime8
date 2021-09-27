@@ -14,7 +14,26 @@ public class KeyIsPressed : BEInstruction
     {
         try
         {
-            key = (KeyCode)System.Enum.Parse(typeof(KeyCode), beBlock.BeInputs.stringValues[0]);
+            string command = beBlock.BeInputs.stringValues[0];
+
+            if (command == "Up Arrow")
+            {
+                command = "UpArrow";
+            }
+            else if (command == "Down Arrow")
+            {
+                command = "DownArrow";
+            }
+            else if (command == "Left Arrow")
+            {
+                command = "LeftArrow";
+            }
+            else if (command == "Right Arrow")
+            {
+                command = "RightArrow";
+            }
+
+            key = (KeyCode)System.Enum.Parse(typeof(KeyCode), command);
         }
         catch (Exception e)
         {
@@ -22,12 +41,12 @@ public class KeyIsPressed : BEInstruction
             Debug.Log(e);
         }
 
-        if (Input.GetKey(key))
+        if (Input.GetKeyDown(key))
         {
             beBlock.BeBlockGroup.isActive = true;
             BeController.PlayNextInside(beBlock);
         }
-        else if (!Input.GetKey(key))
+        else if (!Input.GetKeyDown(key))
         {
             beBlock.BeBlockGroup.isActive = false;
             BeController.StopGroup(beBlock.BeBlockGroup);

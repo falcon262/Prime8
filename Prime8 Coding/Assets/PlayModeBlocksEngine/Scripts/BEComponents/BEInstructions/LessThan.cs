@@ -29,7 +29,7 @@ public class LessThan : BEInstruction
                 result = "0";
             }
         }
-        FindObjectOfType<GameManager>().resultVal.text = result;
+        //FindObjectOfType<GameManager>().resultVal.text = result;
         return result;
     }
 }

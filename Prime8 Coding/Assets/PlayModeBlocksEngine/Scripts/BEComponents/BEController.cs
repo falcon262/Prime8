@@ -161,6 +161,8 @@ public class BEController : MonoBehaviour
     {
         foreach (BETargetObject beTargetObject in beTargetObjectList)
         {
+            beTargetObject.GetComponent<UIController>().thinkBubble.SetActive(false);
+            beTargetObject.GetComponent<UIController>().speechBubble.SetActive(false);
             foreach (BEBlock blockGroup in beTargetObject.beBlockGroupsList)
             {
                 StopGroup(blockGroup);

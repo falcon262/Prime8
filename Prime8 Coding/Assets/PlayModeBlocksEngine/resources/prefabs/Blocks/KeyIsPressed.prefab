@@ -158,7 +158,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: When
+  m_Text: when
 --- !u!114 &2338744899219309828
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -212,7 +212,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 134.84325, y: 0}
+  m_AnchoredPosition: {x: 145.95999, y: 0}
   m_SizeDelta: {x: 100, y: 40}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5524541089723316664
@@ -598,7 +598,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 219.1865, y: 0}
+  m_AnchoredPosition: {x: 241.42, y: 0}
   m_SizeDelta: {x: 0, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2104340472585062746
@@ -787,7 +787,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 106.6865, y: 30}
+  m_SizeDelta: {x: 128.92, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &409470058884533946
 CanvasRenderer:
@@ -878,13 +878,13 @@ MonoBehaviour:
     m_Options:
     - m_Text: Space
       m_Image: {fileID: 0}
-    - m_Text: UpArrow
+    - m_Text: Up Arrow
       m_Image: {fileID: 0}
-    - m_Text: DownArrow
+    - m_Text: Down Arrow
       m_Image: {fileID: 0}
-    - m_Text: LeftArrow
+    - m_Text: Left Arrow
       m_Image: {fileID: 0}
-    - m_Text: RightArrow
+    - m_Text: Right Arrow
       m_Image: {fileID: 0}
     - m_Text: A
       m_Image: {fileID: 0}

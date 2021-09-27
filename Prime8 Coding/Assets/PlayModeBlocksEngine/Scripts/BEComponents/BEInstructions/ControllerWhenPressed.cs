@@ -13,6 +13,7 @@ public class ControllerWhenPressed : BEInstruction
     {
         try
         {
+            
             key = (KeyCode)System.Enum.Parse(typeof(KeyCode), beBlock.BeInputs.stringValues[0]);
         }
         catch(Exception e)

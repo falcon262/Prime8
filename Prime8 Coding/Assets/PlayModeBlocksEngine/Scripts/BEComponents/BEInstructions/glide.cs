@@ -28,14 +28,7 @@ public class glide : BEInstruction
         if (counterForMovement <= movementDuration)
         {
             counterForMovement += Time.deltaTime;
-            if (targetObject.GetComponent<Collider2D>())
-            {
-                direction = targetObject.transform.right;
-            }
-            else if (targetObject.GetComponent<Collider>())
-            {
-                direction = targetObject.transform.forward;
-            }
+
             targetObject.transform.localPosition = Vector3.Lerp(startPos, new Vector3(beBlock.BeInputs.numberValues[1], beBlock.BeInputs.numberValues[2]), counterForMovement / movementDuration);
 
             GameManager manager = FindObjectOfType<GameManager>();

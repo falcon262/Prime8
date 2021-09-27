@@ -36,7 +36,7 @@ public class Multiplication : BEInstruction
             float tempResult = beBlock.BeInputs.numberValues[0] * beBlock.BeInputs.numberValues[1];
             result = tempResult.ToString(CultureInfo.InvariantCulture);
         }
-        FindObjectOfType<GameManager>().resultVal.text = result;
+        //FindObjectOfType<GameManager>().resultVal.text = result;
         return result;
     }
 }

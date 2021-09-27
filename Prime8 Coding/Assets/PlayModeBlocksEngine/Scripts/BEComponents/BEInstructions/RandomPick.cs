@@ -10,7 +10,7 @@ public class RandomPick : BEInstruction
 	{
 
 		result = ((int)(Random.Range(beBlock.BeInputs.numberValues[0], beBlock.BeInputs.numberValues[1]))).ToString();
-		FindObjectOfType<GameManager>().resultVal.text = result;
+		//FindObjectOfType<GameManager>().resultVal.text = result;
 		return result;
 	}
 	
