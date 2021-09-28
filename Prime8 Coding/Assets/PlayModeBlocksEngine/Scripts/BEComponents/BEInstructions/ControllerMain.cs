@@ -11,6 +11,10 @@ public class ControllerMain : BEInstruction
         if(beBlock.BeBlockGroup.isActive)
         {
             FindObjectOfType<GameManager>().isPenDown = false;
+            FindObjectOfType<GameManager>().onEdge = false;
+            FindObjectOfType<GameManager>().leftRight = false;
+            FindObjectOfType<GameManager>().dontRotate = false;
+            FindObjectOfType<GameManager>().allRound = false;
             BeController.PlayNextInside(beBlock);
         }
     }

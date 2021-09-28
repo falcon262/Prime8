@@ -195,6 +195,30 @@ public class BEUIController : MonoBehaviour
             newVar.transform.GetChild(0).GetChild(0).GetComponent<InputField>().text = varName;
             newVar.transform.GetChild(0).GetChild(0).GetComponent<DynamicInputResize>().ExpandInputField();
             newVar.transform.SetSiblingIndex(1);
+
+            foreach (GameObject target in FindObjectOfType<GameManager>().targetObjects)
+            {
+                if (target.GetComponent<BETargetObject>().enabled == true)
+                {
+                    foreach (Transform child in target.GetComponent<UIController>().DataBlocks.transform)
+                    {
+                        if (child.name == "ShowVariable")
+                        {
+                            //child.GetComponentInChildren<Image>().gameObject.GetComponentInChildren<Dropdown>().options.Clear();
+                            child.GetComponentInChildren<Image>().gameObject.GetComponentInChildren<Dropdown>().options.Add(new Dropdown.OptionData() { text = newVar.transform.GetChild(0).GetChild(0).GetComponent<InputField>().text });                     
+                        }
+                        
+                        if (child.name == "HideVariable")
+                        {
+                            //child.GetComponentInChildren<Image>().gameObject.GetComponentInChildren<Dropdown>().options.Clear();
+                            child.GetComponentInChildren<Image>().gameObject.GetComponentInChildren<Dropdown>().options.Add(new Dropdown.OptionData() { text = newVar.transform.GetChild(0).GetChild(0).GetComponent<InputField>().text });                     
+                        }
+                    }
+                }
+            }
+
+            
+
             CloseCreateVariablePanel();
         }
     }

@@ -17,10 +17,25 @@ public class setrotationstyle : BEInstruction
 	// Use this for Functions
 	public override void BEFunction(BETargetObject targetObject, BEBlock beBlock)
 	{
-		// Use "beBlock.BeInputs" to get the input values
-		
-		// Make sure to end the function with a "BeController.PlayNextOutside" method and use "BeController.PlayNextInside" to play child blocks if needed
-		BeController.PlayNextOutside(beBlock);
+        if (targetObject.GetComponent<Collider2D>())
+        {
+            switch (beBlock.BeInputs.stringValues[0])
+            {
+                case "left-right":
+                    FindObjectOfType<GameManager>().leftRight = true;
+                    break;
+                case "don't rotate":
+                    FindObjectOfType<GameManager>().dontRotate = true;
+                    break;
+                case "all around":
+                    FindObjectOfType<GameManager>().allRound = true;
+                    break;
+                default:
+                    FindObjectOfType<GameManager>().leftRight = true;
+                    break;
+            }
+        }
+        BeController.PlayNextOutside(beBlock);
 	}
  
 }

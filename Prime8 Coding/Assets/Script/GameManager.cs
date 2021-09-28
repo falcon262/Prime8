@@ -17,13 +17,20 @@ public class GameManager : MonoBehaviour
     public Button shrink;
     public Button grow;
 
+    public GameObject Var;
     public TextMeshProUGUI resultVal;
+    public TextMeshProUGUI VarName;
 
     public TextMeshProUGUI currentTitle;
 
     public GameObject line;
 
     public bool isPenDown;
+
+    public bool onEdge;
+    public bool leftRight;
+    public bool dontRotate;
+    public bool allRound;
 
     public GameObject CharacterLibrary;
     public GameObject BackgroundLibrary;

@@ -163,6 +163,10 @@ public class UIDrag : MonoBehaviour, IDragHandler, IEndDragHandler, IPointerClic
         if (eventData.clickCount == 2)
         {
             FindObjectOfType<GameManager>().isPenDown = false;
+            FindObjectOfType<GameManager>().onEdge = false;
+            FindObjectOfType<GameManager>().leftRight = false;
+            FindObjectOfType<GameManager>().dontRotate = false;
+            FindObjectOfType<GameManager>().allRound = false;
             Type tp = TryGetType(this.gameObject.name);
             BEInstruction obj = (BEInstruction)FindObjectOfType(tp);
             beBlock.beTargetObject = TargetObject;

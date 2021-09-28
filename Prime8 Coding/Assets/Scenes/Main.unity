@@ -158,8 +158,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -45.57, y: 0}
-  m_SizeDelta: {x: 87.25, y: 20.5}
+  m_AnchoredPosition: {x: -53.78, y: 0}
+  m_SizeDelta: {x: 103.65, y: 27.62}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &23509110
 MonoBehaviour:
@@ -174,14 +174,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.6509434, g: 0.14431292, b: 0.14431292, a: 0.85882354}
+  m_Color: {r: 1, g: 0.43529412, b: 0.08627451, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 058746e0bcbddd34fb3688afe1575c00, type: 3}
+  m_Sprite: {fileID: 21300000, guid: f196065f35d566f46978d4ec2c7699e2, type: 3}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1544,7 +1544,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 290.5078, y: -31.3125}
+  m_AnchoredPosition: {x: 290.5078, y: -31.312439}
   m_SizeDelta: {x: 581.0212, y: -72.44629}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &128168048
@@ -17448,10 +17448,16 @@ MonoBehaviour:
   clearCode: {fileID: 1361541965}
   shrink: {fileID: 75304109}
   grow: {fileID: 1940383600}
+  Var: {fileID: 1790175800}
   resultVal: {fileID: 656267706}
+  VarName: {fileID: 1412033466}
   currentTitle: {fileID: 1058305788}
   line: {fileID: 6946004501404527341, guid: 15a6a9e6fa960cb4dad1684206920f4d, type: 3}
   isPenDown: 0
+  onEdge: 0
+  leftRight: 0
+  dontRotate: 0
+  allRound: 0
   CharacterLibrary: {fileID: 1533407134}
   BackgroundLibrary: {fileID: 1544539630}
   targetObjects: []
@@ -21655,7 +21661,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: '  result'
+  m_text: ' variable'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 763722d9281b93248bdf80f87f832ff3, type: 2}
   m_sharedMaterial: {fileID: 3829355514406524571, guid: 763722d9281b93248bdf80f87f832ff3,
@@ -28702,8 +28708,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 74.5, y: -19.400024}
-  m_SizeDelta: {x: 138.03, y: 22.8}
+  m_AnchoredPosition: {x: 109.42999, y: -22.199997}
+  m_SizeDelta: {x: 207.89, y: 32.48}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1790175802
 MonoBehaviour:
@@ -28725,7 +28731,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 058746e0bcbddd34fb3688afe1575c00, type: 3}
+  m_Sprite: {fileID: 21300000, guid: f196065f35d566f46978d4ec2c7699e2, type: 3}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -34078,6 +34084,7 @@ GameObject:
   - component: {fileID: 2138957896}
   - component: {fileID: 2138957898}
   - component: {fileID: 2138957897}
+  - component: {fileID: 2138957899}
   m_Layer: 5
   m_Name: Background
   m_TagString: Untagged
@@ -34143,3 +34150,35 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2138957895}
   m_CullTransparentMesh: 0
+--- !u!68 &2138957899
+EdgeCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2138957895}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 6200000, guid: 23dff9b4deff6744abafe82aa136e1c5, type: 2}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 189.88}
+  m_EdgeRadius: 0
+  m_Points:
+  - {x: 281.35962, y: 2.2736664}
+  - {x: 281.38507, y: 2.2736816}
+  - {x: 22.028473, y: 2.1223602}
+  - {x: -280.39996, y: 2.122284}
+  - {x: -281.59628, y: 2.3641968}
+  - {x: -282.04086, y: -383.00714}
+  - {x: 281.75342, y: -383.74026}
+  - {x: 281.876, y: -379.89264}
+  - {x: 281.82733, y: -379.89264}
+  - {x: 281.53906, y: -13.317841}
+  - {x: 281.41953, y: -1.8804779}
+  - {x: 281.38434, y: 2.2672424}
+  m_AdjacentStartPoint: {x: 0, y: 0}
+  m_AdjacentEndPoint: {x: 0, y: 0}
+  m_UseAdjacentStartPoint: 0
+  m_UseAdjacentEndPoint: 0
