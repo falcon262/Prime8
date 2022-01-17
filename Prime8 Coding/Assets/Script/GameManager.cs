@@ -21,6 +21,8 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI resultVal;
     public TextMeshProUGUI VarName;
 
+    public bool clearVarOnce;
+
     public TextMeshProUGUI currentTitle;
 
     public GameObject line;

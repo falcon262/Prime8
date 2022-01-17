@@ -28,9 +28,19 @@ public class Costumes : MonoBehaviour
         {
             if (target.GetComponent<BETargetObject>().enabled == true)
             {
-                target.GetComponent<UIController>().character.sprite = this.transform.gameObject.GetComponentInChildren<Image>().sprite;
-                target.GetComponent<UIController>().transparentCharacter.sprite = this.transform.gameObject.GetComponentInChildren<Image>().sprite;
-                target.GetComponent<UIController>().cordinateImage.sprite = this.transform.gameObject.GetComponentInChildren<Image>().sprite;                
+                if(this.transform.gameObject.GetComponentInChildren<Image>().sprite.name != "empty")
+                {
+                    target.GetComponent<UIController>().character.sprite = this.transform.gameObject.GetComponentInChildren<Image>().sprite;
+                    target.GetComponent<UIController>().transparentCharacter.transform.parent.transform.gameObject.SetActive(true);
+                    target.GetComponent<UIController>().transparentCharacter.sprite = this.transform.gameObject.GetComponentInChildren<Image>().sprite;
+                    target.GetComponent<UIController>().cordinateImage.sprite = this.transform.gameObject.GetComponentInChildren<Image>().sprite;
+                }
+                else
+                {
+                    target.GetComponent<UIController>().character.sprite = this.transform.gameObject.GetComponentInChildren<Image>().sprite;
+                    target.GetComponent<UIController>().transparentCharacter.transform.parent.transform.gameObject.SetActive(false);
+                    target.GetComponent<UIController>().cordinateImage.sprite = this.transform.gameObject.GetComponentInChildren<Image>().sprite;
+                }
             }
         }
     }

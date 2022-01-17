@@ -179,6 +179,25 @@ public class BEUIController : MonoBehaviour
     /// </summary>
     public void CreateVariable()
     {
+        if (!FindObjectOfType<GameManager>().clearVarOnce)
+        {
+            foreach (GameObject target in FindObjectOfType<GameManager>().targetObjects)
+            {
+                if (target.GetComponent<BETargetObject>().enabled == true)
+                {
+                    target.GetComponent<UIController>().set.SetActive(true);
+                    target.GetComponent<UIController>().add.SetActive(true);
+                    target.GetComponent<UIController>().show.SetActive(true);
+                    target.GetComponent<UIController>().hide.SetActive(true);
+                }
+            }
+        }
+
+
+        if (!FindObjectOfType<GameManager>().clearVarOnce)
+        {
+            beController.BeVariableList.Clear();
+        }
         variableNameInput = newVariablePanel.GetComponentInChildren<InputField>();
 
         string varName = variableNameInput.text.Replace(" ", "");
@@ -202,16 +221,38 @@ public class BEUIController : MonoBehaviour
                 {
                     foreach (Transform child in target.GetComponent<UIController>().DataBlocks.transform)
                     {
+                        if (child.name == "FunctionSetVariable")
+                        {
+                            if (!FindObjectOfType<GameManager>().clearVarOnce)
+                            {
+                                child.GetComponentInChildren<Image>().gameObject.GetComponentInChildren<Dropdown>().options.Clear();
+                                child.GetComponentInChildren<Image>().gameObject.GetComponentInChildren<Dropdown>().options.Add(new Dropdown.OptionData() { text = newVar.transform.GetChild(0).GetChild(0).GetComponent<InputField>().text });
+                                child.GetComponentInChildren<Image>().gameObject.GetComponentInChildren<Dropdown>().GetComponentInChildren<Text>().text = child.GetComponentInChildren<Image>().gameObject.GetComponentInChildren<Dropdown>().options[0].text;
+                            }
+                                                      
+                        }
+
+                        if (child.name == "FunctionAddVariable")
+                        {
+                            if (!FindObjectOfType<GameManager>().clearVarOnce)
+                            {
+                                child.GetComponentInChildren<Image>().gameObject.GetComponentInChildren<Dropdown>().options.Clear();
+                                child.GetComponentInChildren<Image>().gameObject.GetComponentInChildren<Dropdown>().options.Add(new Dropdown.OptionData() { text = newVar.transform.GetChild(0).GetChild(0).GetComponent<InputField>().text });
+                                child.GetComponentInChildren<Image>().gameObject.GetComponentInChildren<Dropdown>().GetComponentInChildren<Text>().text = child.GetComponentInChildren<Image>().gameObject.GetComponentInChildren<Dropdown>().options[0].text;
+                                FindObjectOfType<GameManager>().clearVarOnce = true;
+                            }
+                        }
+
                         if (child.name == "ShowVariable")
                         {
-                            //child.GetComponentInChildren<Image>().gameObject.GetComponentInChildren<Dropdown>().options.Clear();
-                            child.GetComponentInChildren<Image>().gameObject.GetComponentInChildren<Dropdown>().options.Add(new Dropdown.OptionData() { text = newVar.transform.GetChild(0).GetChild(0).GetComponent<InputField>().text });                     
+                            child.GetComponentInChildren<Image>().gameObject.GetComponentInChildren<Dropdown>().options.Add(new Dropdown.OptionData() { text = newVar.transform.GetChild(0).GetChild(0).GetComponent<InputField>().text });
+                            child.GetComponentInChildren<Image>().gameObject.GetComponentInChildren<Dropdown>().GetComponentInChildren<Text>().text = child.GetComponentInChildren<Image>().gameObject.GetComponentInChildren<Dropdown>().options[0].text;
                         }
                         
                         if (child.name == "HideVariable")
                         {
-                            //child.GetComponentInChildren<Image>().gameObject.GetComponentInChildren<Dropdown>().options.Clear();
-                            child.GetComponentInChildren<Image>().gameObject.GetComponentInChildren<Dropdown>().options.Add(new Dropdown.OptionData() { text = newVar.transform.GetChild(0).GetChild(0).GetComponent<InputField>().text });                     
+                            child.GetComponentInChildren<Image>().gameObject.GetComponentInChildren<Dropdown>().options.Add(new Dropdown.OptionData() { text = newVar.transform.GetChild(0).GetChild(0).GetComponent<InputField>().text });
+                            child.GetComponentInChildren<Image>().gameObject.GetComponentInChildren<Dropdown>().GetComponentInChildren<Text>().text = child.GetComponentInChildren<Image>().gameObject.GetComponentInChildren<Dropdown>().options[0].text;
                         }
                     }
                 }

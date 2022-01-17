@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
 using UnityEngine.UI;
 using Lean.Gui;
 using TMPro;
@@ -41,8 +42,13 @@ public class UIController : MonoBehaviour
     public GameObject SensingBlocks;
     public GameObject CustomBlocks;
 
-    [Header("Background Elements")]
+    [Header("Data Elements")]
+    public GameObject set;
+    public GameObject add;
+    public GameObject show;
+    public GameObject hide;
 
+    [Header("Background Elements")]
     public TextMeshProUGUI xCordinate;
     public TextMeshProUGUI xCordinateEnv;
     public TextMeshProUGUI yCordinate;
@@ -69,6 +75,7 @@ public class UIController : MonoBehaviour
     public GameManager gameManager;
 
     bool isClicked;
+    string path;
 
 
     private void OnEnable()
@@ -317,6 +324,103 @@ public class UIController : MonoBehaviour
             }
         }
     }
+
+    public void OpenCharacterExplorer()
+    {
+#if UNITY_EDITOR
+        path = EditorUtility.OpenFilePanel("Upload new costume", "", "png");
+#endif
+        GetImage();
+    }
+
+    void GetImage()
+    {
+        if(!String.IsNullOrEmpty(path))
+        {
+            WWW www = new WWW("file:///" + path);
+
+            if (newCostume.Count == 0)
+            {
+                newCostume.Add(Instantiate(costumePrefab, parentPlaceholder.transform.position, parentPlaceholder.transform.rotation));
+                newCostume[0].transform.SetParent(parentPlaceholder.transform);
+                newCostume[0].GetComponent<RectTransform>().localScale = new Vector3(0.5f, 0.5f, 0.5f);
+                newCostume[0].GetComponent<RectTransform>().anchoredPosition = new Vector2(0, -60.27f);
+                newCostume[0].transform.gameObject.GetComponentInChildren<Image>().sprite = Sprite.Create(www.texture, new Rect(0,0, www.texture.width, www.texture.height), new Vector2(0.5f, 0.5f));
+                newCostume[0].GetComponent<LeanToggle>().TurnOn();
+                foreach (Transform child in LooksBlocks.transform)
+                {
+                    if (child.name == "SwitchCostumeTo")
+                    {
+                        child.GetComponentInChildren<Image>().gameObject.GetComponentInChildren<Dropdown>().options.Clear();
+                        child.GetComponentInChildren<Image>().gameObject.GetComponentInChildren<Dropdown>().options.Add(new Dropdown.OptionData() { text = newCostume[0].transform.gameObject.GetComponentInChildren<Image>().sprite.name });
+                        //Debug.Log(child.GetComponentInChildren<Image>().gameObject.GetComponentInChildren<Dropdown>().options[0].text);                      
+                    }
+                }
+            }
+            else if (newCostume.Count != 0)
+            {
+                newCostume.Add(Instantiate(costumePrefab, parentPlaceholder.transform.position, parentPlaceholder.transform.rotation));
+                newCostume[newCostume.Count - 1].transform.SetParent(parentPlaceholder.transform);
+                newCostume[newCostume.Count - 1].GetComponent<RectTransform>().localScale = new Vector3(0.5f, 0.5f, 0.5f);
+                newCostume[newCostume.Count - 1].GetComponent<RectTransform>().anchoredPosition = new Vector2(0, newCostume[newCostume.Count - 2].GetComponent<RectTransform>().anchoredPosition.y - 100);
+                newCostume[newCostume.Count - 1].transform.gameObject.GetComponentInChildren<Image>().sprite = Sprite.Create(www.texture, new Rect(0, 0, www.texture.width, www.texture.height), new Vector2(0.5f, 0.5f));
+                newCostume[newCostume.Count - 1].GetComponent<LeanToggle>().TurnOn();
+                foreach (Transform child in LooksBlocks.transform)
+                {
+                    if (child.name == "SwitchCostumeTo")
+                    {
+                        child.GetComponentInChildren<Image>().gameObject.GetComponentInChildren<Dropdown>().options.Add(new Dropdown.OptionData() { text = newCostume[newCostume.Count - 1].transform.gameObject.GetComponentInChildren<Image>().sprite.name });
+                        //Debug.Log(child.GetComponentInChildren<Image>().gameObject.GetComponentInChildren<Dropdown>().options[0].text);                      
+                    }
+                }
+            }
+        }
+    }
+
+    public void CreateEmptyCostume()
+    {
+        Texture2D empty;
+        empty = new Texture2D(500, 299);
+        if (newCostume.Count == 0)
+        {
+            newCostume.Add(Instantiate(costumePrefab, parentPlaceholder.transform.position, parentPlaceholder.transform.rotation));
+            newCostume[0].transform.SetParent(parentPlaceholder.transform);
+            newCostume[0].GetComponent<RectTransform>().localScale = new Vector3(0.5f, 0.5f, 0.5f);
+            newCostume[0].GetComponent<RectTransform>().anchoredPosition = new Vector2(0, -60.27f);
+            newCostume[0].transform.gameObject.GetComponentInChildren<Image>().sprite = Sprite.Create(empty, new Rect(0, 0, empty.width, empty.height), new Vector2(0.5f, 0.5f));
+            newCostume[0].transform.gameObject.GetComponentInChildren<Image>().sprite.name = "empty";
+            newCostume[0].GetComponent<LeanToggle>().TurnOn();
+            foreach (Transform child in LooksBlocks.transform)
+            {
+                if (child.name == "SwitchCostumeTo")
+                {
+                    child.GetComponentInChildren<Image>().gameObject.GetComponentInChildren<Dropdown>().options.Clear();
+                    child.GetComponentInChildren<Image>().gameObject.GetComponentInChildren<Dropdown>().options.Add(new Dropdown.OptionData() { text = newCostume[0].transform.gameObject.GetComponentInChildren<Image>().sprite.name });
+                    //Debug.Log(child.GetComponentInChildren<Image>().gameObject.GetComponentInChildren<Dropdown>().options[0].text);                      
+                }
+            }
+        }
+        else if (newCostume.Count != 0)
+        {
+            newCostume.Add(Instantiate(costumePrefab, parentPlaceholder.transform.position, parentPlaceholder.transform.rotation));
+            newCostume[newCostume.Count - 1].transform.SetParent(parentPlaceholder.transform);
+            newCostume[newCostume.Count - 1].GetComponent<RectTransform>().localScale = new Vector3(0.5f, 0.5f, 0.5f);
+            newCostume[newCostume.Count - 1].GetComponent<RectTransform>().anchoredPosition = new Vector2(0, newCostume[newCostume.Count - 2].GetComponent<RectTransform>().anchoredPosition.y - 100);
+            newCostume[newCostume.Count - 1].transform.gameObject.GetComponentInChildren<Image>().sprite = Sprite.Create(empty, new Rect(0, 0, empty.width, empty.height), new Vector2(0.5f, 0.5f));
+            newCostume[newCostume.Count - 1].transform.gameObject.GetComponentInChildren<Image>().sprite.name = "empty";
+            newCostume[newCostume.Count - 1].GetComponent<LeanToggle>().TurnOn();
+            foreach (Transform child in LooksBlocks.transform)
+            {
+                if (child.name == "SwitchCostumeTo")
+                {
+                    child.GetComponentInChildren<Image>().gameObject.GetComponentInChildren<Dropdown>().options.Add(new Dropdown.OptionData() { text = newCostume[newCostume.Count - 1].transform.gameObject.GetComponentInChildren<Image>().sprite.name });
+                    //Debug.Log(child.GetComponentInChildren<Image>().gameObject.GetComponentInChildren<Dropdown>().options[0].text);                      
+                }
+            }
+        }
+    }
+
+    
 
     #region HeaderSwitches
     public void ScriptFrameOn()
