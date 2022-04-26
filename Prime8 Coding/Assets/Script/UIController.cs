@@ -14,7 +14,7 @@ public class UIController : MonoBehaviour
     public GameObject CostumeFrame;
     public GameObject SoundsFrame;
 
-    [Header("Libraries")]    
+    [Header("Libraries")]
     public GameObject CharacterCostumeLibrary;
     public GameObject SoundsLibrary;
 
@@ -56,7 +56,7 @@ public class UIController : MonoBehaviour
     Vector2 setPos;
 
     public SpriteRenderer character;
-    
+
     public Image cordinateImage;
     public SaveLoadCode saveLoad;
     public GameObject speechBubble;
@@ -73,6 +73,10 @@ public class UIController : MonoBehaviour
     [SerializeField] GameObject parentPlaceholder;
     public Image transparentCharacter;
     public GameManager gameManager;
+
+    [Header("Sound")]
+    public Button Mic;
+    public bool canRecord;
 
     bool isClicked;
     string path;
@@ -110,7 +114,7 @@ public class UIController : MonoBehaviour
             }
             else if (gameManager.characters.Count != 0)
             {
-                if(gameManager.characters.Count % 3 != 0)
+                if (gameManager.characters.Count % 3 != 0)
                 {
                     gameManager.characters.Add(Instantiate(gameManager.currentCharacter, gameManager.characterParentPos.transform.position, gameManager.characterParentPos.transform.rotation));
                     gameManager.characters[gameManager.characters.Count - 1].transform.SetParent(gameManager.characterParentPos.transform);
@@ -121,12 +125,12 @@ public class UIController : MonoBehaviour
                 else if (gameManager.characters.Count % 3 == 0)
                 {
 
-                        gameManager.characters.Add(Instantiate(gameManager.currentCharacter, gameManager.characterParentPos.transform.position, gameManager.characterParentPos.transform.rotation));
-                        gameManager.characters[gameManager.characters.Count - 1].transform.SetParent(gameManager.characterParentPos.transform);
-                        gameManager.characters[gameManager.characters.Count - 1].GetComponent<RectTransform>().localScale = new Vector3(1f, 1f, 1f);
-                        gameManager.characters[gameManager.characters.Count - 1].GetComponent<RectTransform>().anchoredPosition = new Vector2(gameManager.characters[0].GetComponent<RectTransform>().anchoredPosition.x, gameManager.characters[gameManager.characters.Count-3].GetComponent<RectTransform>().anchoredPosition.y - 115);
-                        gameManager.characters[gameManager.characters.Count - 1].GetComponent<LeanToggle>().TurnOn();
-                    
+                    gameManager.characters.Add(Instantiate(gameManager.currentCharacter, gameManager.characterParentPos.transform.position, gameManager.characterParentPos.transform.rotation));
+                    gameManager.characters[gameManager.characters.Count - 1].transform.SetParent(gameManager.characterParentPos.transform);
+                    gameManager.characters[gameManager.characters.Count - 1].GetComponent<RectTransform>().localScale = new Vector3(1f, 1f, 1f);
+                    gameManager.characters[gameManager.characters.Count - 1].GetComponent<RectTransform>().anchoredPosition = new Vector2(gameManager.characters[0].GetComponent<RectTransform>().anchoredPosition.x, gameManager.characters[gameManager.characters.Count - 3].GetComponent<RectTransform>().anchoredPosition.y - 115);
+                    gameManager.characters[gameManager.characters.Count - 1].GetComponent<LeanToggle>().TurnOn();
+
                 }
 
             }
@@ -196,11 +200,23 @@ public class UIController : MonoBehaviour
         transparentCharacter.sprite = character.sprite;
         cordinateImage.sprite = character.sprite;
 
+        Mic.onClick.AddListener(delegate
+        {
+            if (!canRecord)
+            {
+                canRecord = true;
+            }
+            else
+            {
+                canRecord = false;
+            }
+        });
+
         gameManager.saveCode.onClick.AddListener(delegate
         {
             saveLoad.OpenSaveDialog();
         });
-        
+
         gameManager.loadCode.onClick.AddListener(delegate
         {
             saveLoad.OpenLoadDialog();
@@ -209,7 +225,7 @@ public class UIController : MonoBehaviour
         {
             saveLoad.OpenSaveDialog();
         });
-        
+
         gameManager.loadCodeF.onClick.AddListener(delegate
         {
             saveLoad.OpenLoadDialog();
@@ -231,19 +247,19 @@ public class UIController : MonoBehaviour
     void VectorLogic()
     {
         setPos = new Vector3((Camera.main.ScreenToWorldPoint(Input.mousePosition).x - gameManager.background.transform.position.x) * 100, (Camera.main.ScreenToWorldPoint(Input.mousePosition).y - gameManager.background.transform.position.y) * 100);
-        if(setPos.x > 240)
+        if (setPos.x > 240)
         {
             setPos.x = 240;
         }
-        else if(setPos.x < -240)
+        else if (setPos.x < -240)
         {
             setPos.x = -240;
         }
-        if(setPos.y > 180)
+        if (setPos.y > 180)
         {
             setPos.y = 180;
         }
-        else if(setPos.y < -180)
+        else if (setPos.y < -180)
         {
             setPos.y = -180;
         }
@@ -307,7 +323,7 @@ public class UIController : MonoBehaviour
                 else if (newCostume.Count != 0)
                 {
                     newCostume.Add(Instantiate(costumePrefab, parentPlaceholder.transform.position, parentPlaceholder.transform.rotation));
-                    newCostume[newCostume.Count-1].transform.SetParent(parentPlaceholder.transform);
+                    newCostume[newCostume.Count - 1].transform.SetParent(parentPlaceholder.transform);
                     newCostume[newCostume.Count - 1].GetComponent<RectTransform>().localScale = new Vector3(0.5f, 0.5f, 0.5f);
                     newCostume[newCostume.Count - 1].GetComponent<RectTransform>().anchoredPosition = new Vector2(0, newCostume[newCostume.Count - 2].GetComponent<RectTransform>().anchoredPosition.y - 100);
                     newCostume[newCostume.Count - 1].transform.gameObject.GetComponentInChildren<Image>().sprite = costume.transform.gameObject.GetComponentInChildren<Image>().sprite;
@@ -335,7 +351,7 @@ public class UIController : MonoBehaviour
 
     void GetImage()
     {
-        if(!String.IsNullOrEmpty(path))
+        if (!String.IsNullOrEmpty(path))
         {
             WWW www = new WWW("file:///" + path);
 
@@ -345,7 +361,7 @@ public class UIController : MonoBehaviour
                 newCostume[0].transform.SetParent(parentPlaceholder.transform);
                 newCostume[0].GetComponent<RectTransform>().localScale = new Vector3(0.5f, 0.5f, 0.5f);
                 newCostume[0].GetComponent<RectTransform>().anchoredPosition = new Vector2(0, -60.27f);
-                newCostume[0].transform.gameObject.GetComponentInChildren<Image>().sprite = Sprite.Create(www.texture, new Rect(0,0, www.texture.width, www.texture.height), new Vector2(0.5f, 0.5f));
+                newCostume[0].transform.gameObject.GetComponentInChildren<Image>().sprite = Sprite.Create(www.texture, new Rect(0, 0, www.texture.width, www.texture.height), new Vector2(0.5f, 0.5f));
                 newCostume[0].GetComponent<LeanToggle>().TurnOn();
                 foreach (Transform child in LooksBlocks.transform)
                 {
@@ -420,7 +436,7 @@ public class UIController : MonoBehaviour
         }
     }
 
-    
+
 
     #region HeaderSwitches
     public void ScriptFrameOn()
@@ -450,7 +466,7 @@ public class UIController : MonoBehaviour
     #endregion
 
     #region LibrarySwitches
-    
+
     public void CharacterCostumeLibraryOn()
     {
         CharacterCostumeLibrary.SetActive(true);
@@ -467,7 +483,7 @@ public class UIController : MonoBehaviour
     {
         SoundsLibrary.SetActive(false);
     }
-    
+
     #endregion
 
     #region BlockTypeSwitching
