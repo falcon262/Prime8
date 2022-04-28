@@ -54,6 +54,7 @@ public class SoundController : MonoBehaviour
     void Start()
     {
         RefreshMicrophoneDevicesButtonOnclickHandler();
+        RequestPermission();
 
         soundDeck = new List<GameObject>();
         texture = new Texture2D(width, height);
