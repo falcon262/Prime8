@@ -81,6 +81,14 @@ public class UIController : MonoBehaviour
     bool isClicked;
     string path;
 
+    public void TimeShow()
+    {
+        gameManager.timer.SetActive(true);
+    }
+    public void TimeHide()
+    {
+        gameManager.timer.SetActive(false);
+    }
 
     private void OnEnable()
     {

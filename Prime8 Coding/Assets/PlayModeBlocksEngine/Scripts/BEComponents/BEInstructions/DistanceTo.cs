@@ -9,7 +9,22 @@ public class DistanceTo : BEInstruction
 	{
 		string result = "0";
 		
-		// Use "beBlock.BeInputs" to get the input values
+		 if (targetObject.GetComponent<Collider2D>())
+        {
+            switch (beBlock.BeInputs.stringValues[0])
+            {
+                case "mouse-pointer":
+                    GameManager manager = FindObjectOfType<GameManager>();
+					float dist;
+					dist = Vector2.Distance(targetObject.transform.localPosition, new Vector2((Camera.main.ScreenToWorldPoint(Input.mousePosition).x - manager.background.transform.position.x) * 100, (Camera.main.ScreenToWorldPoint(Input.mousePosition).y - manager.background.transform.position.y) * 100));
+                    result = dist.ToString();
+					Debug.Log(result);            
+                    break;
+                default:
+                    targetObject.transform.localPosition = new Vector3(0, 0, 0);
+                    break;
+            }
+        }
 		
 		return result;
 	}

@@ -20,6 +20,7 @@ public class UIDrag : MonoBehaviour, IDragHandler, IEndDragHandler, IPointerClic
     RectTransform rectTransform;
 
     RightClickMenu rightClickMenu;
+    private ResultOutput _resultOutput;
 
     GameObject mainCanvas;
     public bool holding;
@@ -173,6 +174,7 @@ public class UIDrag : MonoBehaviour, IDragHandler, IEndDragHandler, IPointerClic
             beBlock.InitializeInputs();
             try
             {
+                StartCoroutine(OpenResultOutput(eventData.position, obj.BEOperation(beBlock.beTargetObject, beBlock)));
                 obj.BEOperation(beBlock.beTargetObject, beBlock);
                 obj.BEFunction(beBlock.beTargetObject, beBlock);                
             }
@@ -183,6 +185,50 @@ public class UIDrag : MonoBehaviour, IDragHandler, IEndDragHandler, IPointerClic
            
            
         }
+    }
+    
+    public void CurrentDateTimeShow()
+    {
+        Type tp = TryGetType(this.gameObject.name);
+        BEInstruction obj = (BEInstruction)FindObjectOfType(tp);
+        beBlock.beTargetObject = TargetObject;
+        beBlock.InitializeInputs();
+        try
+        {
+            obj.BEOperation(beBlock.beTargetObject, beBlock);
+            obj.BEFunction(beBlock.beTargetObject, beBlock);
+        }
+        catch (Exception)
+        {
+
+        }
+        FindObjectOfType<GameManager>().currentDateTime.SetActive(true);
+    }
+    public void CurrentDateTimeHide()
+    {
+        FindObjectOfType<GameManager>().currentDateTime.SetActive(false);
+    }
+    
+    public void AnswerShow()
+    {
+        Type tp = TryGetType(this.gameObject.name);
+        BEInstruction obj = (BEInstruction)FindObjectOfType(tp);
+        beBlock.beTargetObject = TargetObject;
+        beBlock.InitializeInputs();
+        try
+        {
+            obj.BEOperation(beBlock.beTargetObject, beBlock);
+            obj.BEFunction(beBlock.beTargetObject, beBlock);
+        }
+        catch (Exception)
+        {
+
+        }
+        FindObjectOfType<GameManager>().answer.SetActive(true);
+    }
+    public void AnswerHide()
+    {
+        FindObjectOfType<GameManager>().answer.SetActive(false);
     }
 
     public System.Type TryGetType(string typeName)
@@ -203,6 +249,15 @@ public class UIDrag : MonoBehaviour, IDragHandler, IEndDragHandler, IPointerClic
         rightClickMenu.transform.position = position;
         rightClickMenu.target = this;
         rightClickMenu.gameObject.SetActive(true);
+    }
+
+    IEnumerator OpenResultOutput(Vector3 position, string output)
+    {
+        _resultOutput.transform.position = new Vector3(position.x + 40, position.y+80, position.z);
+        _resultOutput.Result(output);
+        _resultOutput.gameObject.SetActive(true);
+        yield return new WaitForSeconds(2);
+        _resultOutput.gameObject.SetActive(false);
     }
 
     public UIDrop GetParentProgrammingEnv(Transform target)
@@ -255,6 +310,11 @@ public class UIDrag : MonoBehaviour, IDragHandler, IEndDragHandler, IPointerClic
             if (child.GetComponent<RightClickMenu>())
             {
                 rightClickMenu = child.GetComponent<RightClickMenu>();
+            }
+
+            if (child.GetComponent<ResultOutput>())
+            {
+                _resultOutput = child.GetComponent<ResultOutput>();
             }
         }
 

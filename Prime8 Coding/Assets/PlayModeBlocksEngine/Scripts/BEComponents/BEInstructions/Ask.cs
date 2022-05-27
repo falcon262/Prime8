@@ -17,10 +17,20 @@ public class Ask : BEInstruction
 	// Use this for Functions
 	public override void BEFunction(BETargetObject targetObject, BEBlock beBlock)
 	{
-		// Use "beBlock.BeInputs" to get the input values
+		GameManager manager = FindObjectOfType<GameManager>();
 		
+		StartCoroutine(AskAction(targetObject, beBlock));
+		manager.askInput.SetActive(true);
 		// Make sure to end the function with a "BeController.PlayNextOutside" method and use "BeController.PlayNextInside" to play child blocks if needed
 		BeController.PlayNextOutside(beBlock);
+	}
+
+	IEnumerator AskAction(BETargetObject targetObject, BEBlock beBlock)
+	{
+		targetObject.GetComponent<UIController>().speechBubble.SetActive(true);
+		targetObject.GetComponent<UIController>().speech.text = beBlock.BeInputs.stringValues[0];
+		yield return new WaitForSeconds(5);
+		targetObject.GetComponent<UIController>().speechBubble.SetActive(false);
 	}
  
 }
