@@ -63,6 +63,7 @@ public class UIController : MonoBehaviour
     public TextMeshProUGUI speech;
     public GameObject thinkBubble;
     public TextMeshProUGUI think;
+    public Image selectedColor;
 
     [Header("Library Elements")]
     [SerializeField] LeanToggle[] costumes;
@@ -80,6 +81,9 @@ public class UIController : MonoBehaviour
 
     bool isClicked;
     string path;
+
+    public Sprite tranothing;
+    public GameObject tranObj;
 
     public void TimeShow()
     {
@@ -403,16 +407,17 @@ public class UIController : MonoBehaviour
 
     public void CreateEmptyCostume()
     {
-        Texture2D empty;
-        empty = new Texture2D(500, 299);
+        //Texture2D empty;
+        //empty = new Texture2D(500, 299);
+        GameObject drawing = Instantiate(tranObj, tranObj.transform.position, tranObj.transform.rotation);
         if (newCostume.Count == 0)
         {
             newCostume.Add(Instantiate(costumePrefab, parentPlaceholder.transform.position, parentPlaceholder.transform.rotation));
             newCostume[0].transform.SetParent(parentPlaceholder.transform);
             newCostume[0].GetComponent<RectTransform>().localScale = new Vector3(0.5f, 0.5f, 0.5f);
             newCostume[0].GetComponent<RectTransform>().anchoredPosition = new Vector2(0, -60.27f);
-            newCostume[0].transform.gameObject.GetComponentInChildren<Image>().sprite = Sprite.Create(empty, new Rect(0, 0, empty.width, empty.height), new Vector2(0.5f, 0.5f));
-            newCostume[0].transform.gameObject.GetComponentInChildren<Image>().sprite.name = "empty";
+            newCostume[0].transform.gameObject.GetComponentInChildren<Image>().sprite = tranothing; /*Sprite.Create(empty, new Rect(0, 0, empty.width, empty.height), new Vector2(0.5f, 0.5f));*/
+            //newCostume[0].transform.gameObject.GetComponentInChildren<Image>().sprite.name = "empty";
             newCostume[0].GetComponent<LeanToggle>().TurnOn();
             foreach (Transform child in LooksBlocks.transform)
             {
@@ -430,8 +435,8 @@ public class UIController : MonoBehaviour
             newCostume[newCostume.Count - 1].transform.SetParent(parentPlaceholder.transform);
             newCostume[newCostume.Count - 1].GetComponent<RectTransform>().localScale = new Vector3(0.5f, 0.5f, 0.5f);
             newCostume[newCostume.Count - 1].GetComponent<RectTransform>().anchoredPosition = new Vector2(0, newCostume[newCostume.Count - 2].GetComponent<RectTransform>().anchoredPosition.y - 100);
-            newCostume[newCostume.Count - 1].transform.gameObject.GetComponentInChildren<Image>().sprite = Sprite.Create(empty, new Rect(0, 0, empty.width, empty.height), new Vector2(0.5f, 0.5f));
-            newCostume[newCostume.Count - 1].transform.gameObject.GetComponentInChildren<Image>().sprite.name = "empty";
+            newCostume[newCostume.Count - 1].transform.gameObject.GetComponentInChildren<Image>().sprite = tranothing; /*Sprite.Create(empty, new Rect(0, 0, empty.width, empty.height), new Vector2(0.5f, 0.5f));*/
+            //newCostume[newCostume.Count - 1].transform.gameObject.GetComponentInChildren<Image>().sprite.name = "empty";
             newCostume[newCostume.Count - 1].GetComponent<LeanToggle>().TurnOn();
             foreach (Transform child in LooksBlocks.transform)
             {

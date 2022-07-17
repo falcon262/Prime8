@@ -28,7 +28,7 @@ public class Costumes : MonoBehaviour
         {
             if (target.GetComponent<BETargetObject>().enabled == true)
             {
-                if(this.transform.gameObject.GetComponentInChildren<Image>().sprite.name != "empty")
+                if(this.transform.gameObject.GetComponentInChildren<Image>().sprite.name != "tranothing")
                 {
                     target.GetComponent<UIController>().character.sprite = this.transform.gameObject.GetComponentInChildren<Image>().sprite;
                     target.GetComponent<UIController>().transparentCharacter.transform.parent.transform.gameObject.SetActive(true);
