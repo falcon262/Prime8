@@ -64,6 +64,13 @@ public class GameManager : MonoBehaviour
     public GameObject background;
     public GameObject currentBackground;
 
+    public webCamMotionDetection webcaCamMotionDetection;
+
+    public GameObject webCam;
+
+    public bool isCamOn;
+
+
     private void Start()
     {
         restart.onClick.AddListener(delegate { SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex); });

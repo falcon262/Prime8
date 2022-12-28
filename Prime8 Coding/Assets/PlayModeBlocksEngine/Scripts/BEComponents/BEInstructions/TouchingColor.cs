@@ -3,14 +3,14 @@ using System.Collections;
 
 public class TouchingColor : BEInstruction
 {
- 
 	// Use this for Operations
 	public override string BEOperation(BETargetObject targetObject, BEBlock beBlock)
 	{
 		string result = "0";
-		
+
 		// Use "beBlock.BeInputs" to get the input values
-		
+		RaycastHit2D hit = Physics2D.Raycast(targetObject.gameObject.transform.position, targetObject.gameObject.transform.forward);
+		Debug.Log(hit.transform.name);//1e-05
 		return result;
 	}
 	
@@ -22,5 +22,5 @@ public class TouchingColor : BEInstruction
 		// Make sure to end the function with a "BeController.PlayNextOutside" method and use "BeController.PlayNextInside" to play child blocks if needed
 		BeController.PlayNextOutside(beBlock);
 	}
- 
+
 }

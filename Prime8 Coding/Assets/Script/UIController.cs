@@ -283,6 +283,8 @@ public class UIController : MonoBehaviour
 
     void DragCharacter()
     {
+/*        RaycastHit2D tes = Physics2D.Raycast(transform.gameObject.transform.position, transform.gameObject.transform.forward);
+        Debug.Log(tes.transform.name);*/
         try
         {
             if (Input.GetMouseButton(0))
