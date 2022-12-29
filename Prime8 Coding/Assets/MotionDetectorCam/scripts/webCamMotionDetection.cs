@@ -45,47 +45,62 @@ public class webCamMotionDetection : MonoBehaviour {
 
 	}
 
+	IEnumerator OnCamEnabled()
+	{
+        yield return Application.RequestUserAuthorization(UserAuthorization.WebCam);
+        if (Application.HasUserAuthorization(UserAuthorization.WebCam))
+        {
+            //create webcamTexture with default resolution
+            webcamTextureInitial = new WebCamTexture();
+            Renderer renderer = GetComponent<Renderer>();
+            renderer.material.mainTexture = webcamTextureInitial;
+            webcamTextureInitial.Play();
+
+            ratio = (float)webcamTextureInitial.width / (float)webcamTextureInitial.height;
+
+            //scale webCam plane
+            gameObject.transform.localScale = new Vector3(1f * ratio, 1f, 1f);
+
+            //scale motionShowUI
+            motionShowUI.transform.localScale = new Vector3(1f * (1f / ratio), 1f, 1f);
+
+
+            float newfloatY = webcamResizeX / ratio;
+            webcamResizeY = (int)newfloatY;
+
+            webcamTextureInitial.Stop();
+
+            //resize webcamTexture with predeterminate width and height (to optimize calculations)
+            webcamTexture = new WebCamTexture(webcamResizeX, webcamResizeY, 25);
+            renderer.material.mainTexture = webcamTexture;
+            webcamTexture.Play();
+
+            //create colors
+            pixelColor = new Color[webcamResizeX * webcamResizeY];
+
+            this.transform.localPosition = new Vector3(-6.19f, 1.98f, 0.07f);
+            this.transform.localScale = new Vector3(0.5246233f, 0.2712144f, 0.3525787f);
+
+            InvokeCam();
+
+        }
+        else
+        {
+            Debug.Log("no webcams found");
+        }
+    }
+
     private void OnEnable()
     {
-        //create webcamTexture with default resolution
-        webcamTextureInitial = new WebCamTexture();
-        Renderer renderer = GetComponent<Renderer>();
-        renderer.material.mainTexture = webcamTextureInitial;
-        webcamTextureInitial.Play();
-
-        ratio = (float)webcamTextureInitial.width / (float)webcamTextureInitial.height;
-
-        //scale webCam plane
-        gameObject.transform.localScale = new Vector3(1f * ratio, 1f, 1f);
-
-        //scale motionShowUI
-        motionShowUI.transform.localScale = new Vector3(1f * (1f / ratio), 1f, 1f);
-
-
-        float newfloatY = webcamResizeX / ratio;
-        webcamResizeY = (int)newfloatY;
-
-        webcamTextureInitial.Stop();
-
-        //resize webcamTexture with predeterminate width and height (to optimize calculations)
-        webcamTexture = new WebCamTexture(webcamResizeX, webcamResizeY, 25);
-        renderer.material.mainTexture = webcamTexture;
-        webcamTexture.Play();
-
-        //create colors
-        pixelColor = new Color[webcamResizeX * webcamResizeY];
-
-		this.transform.localPosition = new Vector3(-6.19f, 1.98f, 0.07f);
-		this.transform.localScale = new Vector3(0.5246233f, 0.2712144f, 0.3525787f);
-
-		InvokeCam();
+		StartCoroutine(OnCamEnabled());
     }
 
     private void OnDisable()
     {
+        StopCoroutine(OnCamEnabled());
+        CancelInvoke("FindMotion");
         webcamTexture.Stop();
 		motionDetect = 0;
-		CancelInvoke("FindMotion");
     }
 
     public void InvokeCam()
