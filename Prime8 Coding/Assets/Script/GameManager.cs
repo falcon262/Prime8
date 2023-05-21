@@ -97,6 +97,7 @@ public class GameManager : MonoBehaviour
     {
         answer.gameObject.transform.GetChild(1).gameObject.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text =
             askInput.GetComponentInChildren<TMP_InputField>().text;
+        askInput.GetComponentInChildren<TMP_InputField>().text = string.Empty;
         askInput.SetActive(false);
     }
 
@@ -127,9 +128,43 @@ public class GameManager : MonoBehaviour
             }
     }
 
-    #region LibrarySwitches
+    public void CharacterGrow(float growthValue)
+    {
+        foreach (var character in characters)
+        {
+            if (character.GetComponent<LeanToggle>().On)
+            {
+                foreach (var targetObject in targetObjects)
+                {
+                    if(targetObject.GetComponent<SpriteRenderer>().sprite.name == character.GetComponentInChildren<Image>().sprite.name)
+                    {
+                        targetObject.transform.localScale = new Vector3(targetObject.transform.localScale.x + growthValue, targetObject.transform.localScale.y + growthValue, targetObject.transform.localScale.z + growthValue);
+                    }
+                }
+            }
+        }
+    }
 
-    public void CharacterLibraryOn()
+	public void CharacterShrink(float shrinkValue)
+	{
+		foreach (var character in characters)
+		{
+			if (character.GetComponent<LeanToggle>().On)
+			{
+				foreach (var targetObject in targetObjects)
+				{
+					if (targetObject.GetComponent<SpriteRenderer>().sprite.name == character.GetComponentInChildren<Image>().sprite.name)
+					{
+						targetObject.transform.localScale = new Vector3(targetObject.transform.localScale.x - shrinkValue, targetObject.transform.localScale.y - shrinkValue, targetObject.transform.localScale.z - shrinkValue);
+					}
+				}
+			}
+		}
+	}
+
+	#region LibrarySwitches
+
+	public void CharacterLibraryOn()
     {
         CharacterLibrary.SetActive(true);
     }

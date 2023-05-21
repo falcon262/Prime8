@@ -174,8 +174,11 @@ public class UIDrag : MonoBehaviour, IDragHandler, IEndDragHandler, IPointerClic
             beBlock.InitializeInputs();
             try
             {
-                StartCoroutine(OpenResultOutput(eventData.position, obj.BEOperation(beBlock.beTargetObject, beBlock)));
-                obj.BEOperation(beBlock.beTargetObject, beBlock);
+                if(beBlock.blockType == BEBlock.BlockTypeItems.operation)
+                {
+					StartCoroutine(OpenResultOutput(eventData.position, obj.BEOperation(beBlock.beTargetObject, beBlock)));
+				}
+				obj.BEOperation(beBlock.beTargetObject, beBlock);
                 obj.BEFunction(beBlock.beTargetObject, beBlock);                
             }
             catch (Exception)

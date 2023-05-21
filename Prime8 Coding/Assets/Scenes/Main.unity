@@ -842,7 +842,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 75304107}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1167095616}
+        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_MethodName: CharacterShrink
+        m_Mode: 4
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 5
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &78331090
 GameObject:
   m_ObjectHideFlags: 0
@@ -18623,6 +18635,7 @@ MonoBehaviour:
   currentBackground: {fileID: 1055018024}
   webcaCamMotionDetection: {fileID: 1017268760}
   webCam: {fileID: 552525736}
+  isCamOn: 0
 --- !u!1 &1169868340
 GameObject:
   m_ObjectHideFlags: 0
@@ -34153,7 +34166,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1940383598}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1167095616}
+        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_MethodName: CharacterGrow
+        m_Mode: 4
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 5
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1943901628
 GameObject:
   m_ObjectHideFlags: 0

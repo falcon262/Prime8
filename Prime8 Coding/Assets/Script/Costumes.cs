@@ -3,17 +3,22 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Lean.Gui;
+using TMPro;
+using FreeDraw;
 
 public class Costumes : MonoBehaviour
 {
     UIController controller;
     GameManager gameManager;
 
+    public TextMeshProUGUI costumeName;
+
     private void OnEnable()
     {
         controller = FindObjectOfType<UIController>();
         gameManager = FindObjectOfType<GameManager>();
-    }
+        costumeName.text = this.transform.gameObject.GetComponentInChildren<Image>().sprite.name;
+	}
 
     public void ChangeCostume()
     {
@@ -28,19 +33,31 @@ public class Costumes : MonoBehaviour
         {
             if (target.GetComponent<BETargetObject>().enabled == true)
             {
-                if(this.transform.gameObject.GetComponentInChildren<Image>().sprite.name != "tranothing")
+                if(this.transform.gameObject.GetComponentInChildren<Image>().sprite.name != "New Costume")
                 {
                     target.GetComponent<UIController>().character.sprite = this.transform.gameObject.GetComponentInChildren<Image>().sprite;
                     target.GetComponent<UIController>().transparentCharacter.transform.parent.transform.gameObject.SetActive(true);
                     target.GetComponent<UIController>().transparentCharacter.sprite = this.transform.gameObject.GetComponentInChildren<Image>().sprite;
                     target.GetComponent<UIController>().cordinateImage.sprite = this.transform.gameObject.GetComponentInChildren<Image>().sprite;
-                }
+                    target.GetComponent<UIController>().newCostumeInputName.text = this.transform.gameObject.GetComponentInChildren<Image>().sprite.name;
+					var drawings = FindObjectsOfType<Drawable>();
+					foreach (var drawing in drawings)
+					{
+						drawing.transform.gameObject.GetComponentInChildren<BoxCollider2D>().enabled = false;
+					}
+				}
                 else
                 {
                     target.GetComponent<UIController>().character.sprite = this.transform.gameObject.GetComponentInChildren<Image>().sprite;
                     target.GetComponent<UIController>().transparentCharacter.transform.parent.transform.gameObject.SetActive(false);
                     target.GetComponent<UIController>().cordinateImage.sprite = this.transform.gameObject.GetComponentInChildren<Image>().sprite;
-                }
+					target.GetComponent<UIController>().newCostumeInputName.text = this.transform.gameObject.GetComponentInChildren<Image>().sprite.name;
+					var drawings = FindObjectsOfType<Drawable>();
+					foreach (var drawing in drawings)
+					{
+						drawing.transform.gameObject.GetComponentInChildren<BoxCollider2D>().enabled = true;
+					}
+				}
             }
         }
     }

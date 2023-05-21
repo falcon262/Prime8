@@ -6,6 +6,7 @@ using UnityEditor;
 using UnityEngine.UI;
 using Lean.Gui;
 using TMPro;
+using FreeDraw;
 
 public class UIController : MonoBehaviour
 {
@@ -84,6 +85,8 @@ public class UIController : MonoBehaviour
 
     public Sprite tranothing;
     public GameObject tranObj;
+
+    public TMP_InputField newCostumeInputName;
 
     public void TimeShow()
     {
@@ -187,11 +190,20 @@ public class UIController : MonoBehaviour
                 {
                     child.GetComponentInChildren<Image>().gameObject.GetComponentInChildren<Dropdown>().options.Clear();
                     child.GetComponentInChildren<Image>().gameObject.GetComponentInChildren<Dropdown>().options.Add(new Dropdown.OptionData() { text = newCostume[0].transform.gameObject.GetComponentInChildren<Image>().sprite.name });
-                    child.GetComponentInChildren<Image>().gameObject.GetComponentInChildren<Dropdown>().options.Add(new Dropdown.OptionData() { text = newCostume[1].transform.gameObject.GetComponentInChildren<Image>().sprite.name });
+                    try
+                    {
+						child.GetComponentInChildren<Image>().gameObject.GetComponentInChildren<Dropdown>().options.Add(new Dropdown.OptionData() { text = newCostume[1].transform.gameObject.GetComponentInChildren<Image>().sprite.name });
+					}
+					catch (Exception)
+                    {
+
+                        Debug.Log("Costumes Out of Range");
+                    }
                     //Debug.Log(child.GetComponentInChildren<Image>().gameObject.GetComponentInChildren<Dropdown>().options[0].text);                      
                 }
             }
             newCostume[0].GetComponent<LeanToggle>().TurnOn();
+            newCostumeInputName.text = newCostume[0].GetComponentInChildren<TextMeshProUGUI>().text;
         }
 
 
@@ -323,6 +335,8 @@ public class UIController : MonoBehaviour
                     newCostume[0].GetComponent<RectTransform>().localScale = new Vector3(0.5f, 0.5f, 0.5f);
                     newCostume[0].GetComponent<RectTransform>().anchoredPosition = new Vector2(0, -60.27f);
                     newCostume[0].transform.gameObject.GetComponentInChildren<Image>().sprite = costume.transform.gameObject.GetComponentInChildren<Image>().sprite;
+                    newCostume[0].transform.gameObject.GetComponentInChildren<TextMeshProUGUI>().text = costume.transform.gameObject.GetComponentInChildren<Image>().sprite.name;
+                    newCostumeInputName.text = costume.transform.gameObject.GetComponentInChildren<Image>().sprite.name;
                     newCostume[0].GetComponent<LeanToggle>().TurnOn();
                     foreach (Transform child in LooksBlocks.transform)
                     {
@@ -341,7 +355,9 @@ public class UIController : MonoBehaviour
                     newCostume[newCostume.Count - 1].GetComponent<RectTransform>().localScale = new Vector3(0.5f, 0.5f, 0.5f);
                     newCostume[newCostume.Count - 1].GetComponent<RectTransform>().anchoredPosition = new Vector2(0, newCostume[newCostume.Count - 2].GetComponent<RectTransform>().anchoredPosition.y - 100);
                     newCostume[newCostume.Count - 1].transform.gameObject.GetComponentInChildren<Image>().sprite = costume.transform.gameObject.GetComponentInChildren<Image>().sprite;
-                    newCostume[newCostume.Count - 1].GetComponent<LeanToggle>().TurnOn();
+					newCostume[newCostume.Count - 1].transform.gameObject.GetComponentInChildren<TextMeshProUGUI>().text = costume.transform.gameObject.GetComponentInChildren<Image>().sprite.name;
+					newCostumeInputName.text = costume.transform.gameObject.GetComponentInChildren<Image>().sprite.name;
+					newCostume[newCostume.Count - 1].GetComponent<LeanToggle>().TurnOn();
                     foreach (Transform child in LooksBlocks.transform)
                     {
                         if (child.name == "SwitchCostumeTo")
@@ -420,6 +436,7 @@ public class UIController : MonoBehaviour
             newCostume[0].GetComponent<RectTransform>().anchoredPosition = new Vector2(0, -60.27f);
             newCostume[0].transform.gameObject.GetComponentInChildren<Image>().sprite = tranothing; /*Sprite.Create(empty, new Rect(0, 0, empty.width, empty.height), new Vector2(0.5f, 0.5f));*/
             //newCostume[0].transform.gameObject.GetComponentInChildren<Image>().sprite.name = "empty";
+            newCostume[0].transform.gameObject.GetComponentInChildren<TextMeshProUGUI>().text = tranothing.name;
             newCostume[0].GetComponent<LeanToggle>().TurnOn();
             foreach (Transform child in LooksBlocks.transform)
             {
@@ -438,8 +455,9 @@ public class UIController : MonoBehaviour
             newCostume[newCostume.Count - 1].GetComponent<RectTransform>().localScale = new Vector3(0.5f, 0.5f, 0.5f);
             newCostume[newCostume.Count - 1].GetComponent<RectTransform>().anchoredPosition = new Vector2(0, newCostume[newCostume.Count - 2].GetComponent<RectTransform>().anchoredPosition.y - 100);
             newCostume[newCostume.Count - 1].transform.gameObject.GetComponentInChildren<Image>().sprite = tranothing; /*Sprite.Create(empty, new Rect(0, 0, empty.width, empty.height), new Vector2(0.5f, 0.5f));*/
-            //newCostume[newCostume.Count - 1].transform.gameObject.GetComponentInChildren<Image>().sprite.name = "empty";
-            newCostume[newCostume.Count - 1].GetComponent<LeanToggle>().TurnOn();
+			//newCostume[newCostume.Count - 1].transform.gameObject.GetComponentInChildren<Image>().sprite.name = "empty";
+			newCostume[newCostume.Count - 1].transform.gameObject.GetComponentInChildren<TextMeshProUGUI>().text = tranothing.name;
+			newCostume[newCostume.Count - 1].GetComponent<LeanToggle>().TurnOn();
             foreach (Transform child in LooksBlocks.transform)
             {
                 if (child.name == "SwitchCostumeTo")
@@ -457,6 +475,11 @@ public class UIController : MonoBehaviour
     public void ScriptFrameOn()
     {
         ScriptFrame.SetActive(true);
+        var drawings = FindObjectsOfType<Drawable>();
+        foreach (var drawing in drawings)
+        {
+            drawing.transform.gameObject.GetComponentInChildren<BoxCollider2D>().enabled = false;
+        }
     }
     public void ScirptFrameOff()
     {
@@ -465,7 +488,19 @@ public class UIController : MonoBehaviour
     public void CostumeFrameOn()
     {
         CostumeFrame.SetActive(true);
-    }
+
+        foreach (var item in newCostume)
+        {
+            if (item.transform.gameObject.GetComponent<LeanToggle>().On && item.gameObject.GetComponentInChildren<Image>().sprite.name == "New Costume")
+            {
+				var drawings = FindObjectsOfType<Drawable>();
+				foreach (var drawing in drawings)
+				{
+					drawing.transform.gameObject.GetComponentInChildren<BoxCollider2D>().enabled = true;
+				}
+			}
+        }
+	}
     public void CostumeFrameOff()
     {
         CostumeFrame.SetActive(false);
@@ -473,7 +508,12 @@ public class UIController : MonoBehaviour
     public void SoundFrameOn()
     {
         SoundsFrame.SetActive(true);
-    }
+		var drawings = FindObjectsOfType<Drawable>();
+		foreach (var drawing in drawings)
+		{
+			drawing.transform.gameObject.GetComponentInChildren<BoxCollider2D>().enabled = false;
+		}
+	}
     public void SoundFrameOff()
     {
         SoundsFrame.SetActive(false);
