@@ -17,7 +17,10 @@ public class Costumes : MonoBehaviour
     {
         controller = FindObjectOfType<UIController>();
         gameManager = FindObjectOfType<GameManager>();
-        costumeName.text = this.transform.gameObject.GetComponentInChildren<Image>().sprite.name;
+        if(controller.newCostume.IndexOf(this.transform.gameObject) != -1)
+            costumeName.text = controller.newCostumeNames[controller.newCostume.IndexOf(this.transform.gameObject)] /*this.transform.gameObject.GetComponentInChildren<Image>().sprite.name*/;
+
+        Debug.Log(controller.newCostume.IndexOf(this.transform.gameObject));
 	}
 
     public void ChangeCostume()

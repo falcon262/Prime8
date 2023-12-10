@@ -71,6 +71,7 @@ public class UIController : MonoBehaviour
 
     [Header("Costume Elements")]
     public List<GameObject> newCostume;
+    public List<string> newCostumeNames;
     [SerializeField] GameObject costumePrefab;
     [SerializeField] GameObject parentPlaceholder;
     public Image transparentCharacter;
@@ -103,6 +104,7 @@ public class UIController : MonoBehaviour
         //currentCharacter.sprite = character.sprite;
         //transparentCharacter.sprite = character.sprite;
         newCostume = new List<GameObject>();
+        newCostumeNames = new List<string>();
 
         gameManager = FindObjectOfType<GameManager>();
 
@@ -204,6 +206,11 @@ public class UIController : MonoBehaviour
             }
             newCostume[0].GetComponent<LeanToggle>().TurnOn();
             newCostumeInputName.text = newCostume[0].GetComponentInChildren<TextMeshProUGUI>().text;
+
+            foreach (var item in newCostume)
+            {
+                newCostumeNames.Add(item.gameObject.transform.GetChild(0).GetComponent<Image>().sprite.name);
+            }
         }
 
 
@@ -438,6 +445,7 @@ public class UIController : MonoBehaviour
             //newCostume[0].transform.gameObject.GetComponentInChildren<Image>().sprite.name = "empty";
             newCostume[0].transform.gameObject.GetComponentInChildren<TextMeshProUGUI>().text = tranothing.name;
             newCostume[0].GetComponent<LeanToggle>().TurnOn();
+            newCostumeNames.Add(newCostume[0].gameObject.transform.GetChild(0).GetComponent<Image>().sprite.name);
             foreach (Transform child in LooksBlocks.transform)
             {
                 if (child.name == "SwitchCostumeTo")
@@ -458,6 +466,7 @@ public class UIController : MonoBehaviour
 			//newCostume[newCostume.Count - 1].transform.gameObject.GetComponentInChildren<Image>().sprite.name = "empty";
 			newCostume[newCostume.Count - 1].transform.gameObject.GetComponentInChildren<TextMeshProUGUI>().text = tranothing.name;
 			newCostume[newCostume.Count - 1].GetComponent<LeanToggle>().TurnOn();
+            newCostumeNames.Add(newCostume[newCostume.Count - 1].gameObject.transform.GetChild(0).GetComponent<Image>().sprite.name);
             foreach (Transform child in LooksBlocks.transform)
             {
                 if (child.name == "SwitchCostumeTo")

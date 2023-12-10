@@ -36445,7 +36445,7 @@ GameObject:
   - component: {fileID: 2138957900}
   m_Layer: 5
   m_Name: Background
-  m_TagString: Untagged
+  m_TagString: background
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

@@ -30,23 +30,34 @@ public class SelectedCharacterName : MonoBehaviour
 
     public void ChangeCotumeName()
     {
-/*        foreach (var item in controller.newCostume)
+        foreach (var item in controller.newCostume)
         {
             if (item.GetComponent<LeanToggle>().On)
             {
-				foreach (Transform child in controller.LooksBlocks.transform)
-				{
-					if (child.name == "SwitchCostumeTo")
-					{
+                Debug.Log(item.gameObject.transform.GetChild(0).GetComponent<Image>().sprite.name);
+
+                //item.gameObject.transform.GetChild(0).GetComponent<Image>().sprite.name = textInput.text;
+
+                controller.newCostumeNames[controller.newCostumeNames.IndexOf(item.GetComponentInChildren<TextMeshProUGUI>().text)] = textInput.text;
+
+                item.GetComponentInChildren<TextMeshProUGUI>().text = textInput.text;
+
+
+
+
+                /*foreach (Transform child in controller.LooksBlocks.transform)
+                {
+                    if (child.name == "SwitchCostumeTo")
+                    {
                         child.GetComponentInChildren<Image>().gameObject.GetComponentInChildren<Dropdown>().options
                              .Find(x => x.text == item.GetComponentInChildren<Image>().sprite.name || x.text == textInput.text).text = textInput.text;
-                                           
-					}
-				}
-				//item.GetComponentInChildren<Image>().sprite.name = textInput.text;
 
-				//item.GetComponentInChildren<TextMeshProUGUI>().text = textInput.text;
-			}
-        }*/
+                    }
+                }*/
+                //item.GetComponentInChildren<Image>().sprite.name = textInput.text;
+
+                //item.GetComponentInChildren<TextMeshProUGUI>().text = textInput.text;
+            }
+        }
     }
 }

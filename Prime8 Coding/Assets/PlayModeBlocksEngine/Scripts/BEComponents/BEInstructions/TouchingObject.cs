@@ -28,6 +28,8 @@ public class TouchingObject : BEInstruction
                     }
                     return result;
                 case "edge":
+                    if (targetObject.transform.gameObject.GetComponent<Collider2D>().IsTouching(FindObjectOfType<GameManager>().background.transform.gameObject.GetComponent<EdgeCollider2D>()))
+                        result = "1";
                     return result;
                 default:
                     return result;

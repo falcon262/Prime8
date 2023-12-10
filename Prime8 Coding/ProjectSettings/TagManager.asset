@@ -14,6 +14,7 @@ TagManager:
   - var
   - pixel
   - transparent
+  - background
   layers:
   - Default
   - TransparentFX
