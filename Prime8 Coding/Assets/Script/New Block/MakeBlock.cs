@@ -14,6 +14,7 @@ public class MakeBlock : MonoBehaviour
     public GameObject NumberBlockInput;
     public GameObject StringBlockInput;
     public GameObject BooleanBlockInput;
+    public Transform MoreBlocksParent;
 
     public BEController bEController;
 
@@ -146,7 +147,7 @@ public class MakeBlock : MonoBehaviour
         {
             Debug.Log(headerGuidline);
             Debug.Log(instructionName);
-            //bEController.BuildBlock(headerGuidline, instructionName, BEBlock.BlockTypeItems.simple, color);
+            bEController.BuildBlockTemplate(headerGuidline, instructionName, BEBlock.BlockTypeItems.simple, color, MoreBlocksParent);
             //bEController.ReimportInstructions();
         }
 

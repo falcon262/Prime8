@@ -536,6 +536,95 @@ public class BEController : MonoBehaviour
         LayoutRebuilder.ForceRebuildLayoutImmediate(beUIController.BlocksPanel.GetComponent<RectTransform>());
     }
 
+    public void BuildBlockTemplate(string headerGuideline, string instructionName, BEBlock.BlockTypeItems type, Color color, Transform parent)
+    {
+        templatePrefabsPath = "prefabs/Blocks/Template/";
+
+        GameObject newBlockGameObject = Instantiate(Resources.Load(templatePrefabsPath + "BlockTemplate", typeof(GameObject))) as GameObject;
+        BEBlock newBlock = newBlockGameObject.GetComponent<BEBlock>();
+        newBlockGameObject.transform.SetParent(parent);
+        newBlockGameObject.transform.SetAsFirstSibling();
+        newBlock.blockType = type;
+
+        string instructionNameClear = System.Text.RegularExpressions.Regex.Replace(instructionName, "[^\\w\\._]", "");
+        instructionNameClear = instructionNameClear.Replace(" ", "");
+
+        newBlockGameObject.name = instructionNameClear;
+        newBlock.SetBlocksLayout();
+        for (int i = newBlock.transform.GetChild(0).childCount - 1; i >= 0; i--)
+        {
+            DestroyImmediate(newBlock.transform.GetChild(0).GetChild(i).gameObject);
+        }
+        newBlockGameObject.GetComponent<Image>().color = color;
+
+        string[] headerObjects = headerGuideline.Split('\n');
+
+        foreach (string objString in headerObjects)
+        {
+            string tempObjString = "";
+            foreach (char c in objString)
+            {
+                if (!char.IsControl(c))
+                    tempObjString += c;
+            }
+            tempObjString = tempObjString.TrimStart(' ').TrimEnd(' ');
+            if (tempObjString != "")
+            {
+                try
+                {
+                    GameObject headerObj;
+                    if (tempObjString.ToLower().Contains("[inputfield") && tempObjString.Substring(tempObjString.Length - 1, 1) == "]")
+                    {
+                        headerObj = Instantiate(Resources.Load(templatePrefabsPath + "inputfield", typeof(GameObject))) as GameObject;
+                        headerObj.name = "InputField";
+                        string value;
+                        if (tempObjString.Contains("="))
+                        {
+                            value = tempObjString.Split('=')[1].TrimStart(' ').TrimEnd(']', ' ');
+                        }
+                        else
+                        {
+                            value = "";
+                        }
+                        headerObj.GetComponent<InputField>().text = value;
+                    }
+                    else if (tempObjString.ToLower().Contains("[dropdown") && tempObjString.Substring(tempObjString.Length - 1, 1) == "]")
+                    {
+                        headerObj = Instantiate(Resources.Load(templatePrefabsPath + "dropdown", typeof(GameObject))) as GameObject;
+                        headerObj.name = "Dropdown";
+                        if (tempObjString.Contains("="))
+                        {
+                            string[] options = tempObjString.Split('=')[1].TrimStart(' ').TrimEnd(']', ' ').Split(',');
+                            Dropdown dropdown = headerObj.GetComponent<Dropdown>();
+                            dropdown.ClearOptions();
+                            foreach (string option in options)
+                            {
+                                string tempOption = option.TrimStart(' ').TrimEnd(' ');
+                                dropdown.options.Add(new Dropdown.OptionData(tempOption));
+                            }
+                            dropdown.RefreshShownValue();
+                        }
+                    }
+                    else
+                    {
+                        headerObj = Instantiate(Resources.Load(templatePrefabsPath + "text", typeof(GameObject))) as GameObject;
+                        headerObj.name = "Text";
+                        headerObj.GetComponent<Text>().text = tempObjString.TrimStart(' ');
+                    }
+
+                    headerObj.transform.SetParent(newBlock.transform.GetChild(0));
+                    headerObj.transform.SetAsLastSibling();
+
+                }
+                catch
+                {
+                    Debug.Log("Couldn't identify header guideline");
+                }
+            }
+        }
+
+    }
+
     public void CreateInstruction(string instructionName)
     {
         string instructionsPath = Application.dataPath + "/PlayModeBlocksEngine/Scripts/BEComponents/BEInstructions/";
